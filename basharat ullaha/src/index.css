@@ -178,10 +178,13 @@
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(11,29,53,0.05);
   border: 1px solid rgba(201,168,76,0.1);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+  will-change: transform, box-shadow;
 }
-.card:hover {
-  box-shadow: 0 6px 20px rgba(11,29,53,0.08);
+
+.card-hover-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(11,29,53,0.1);
   border-color: rgba(201,168,76,0.3);
 }
 
@@ -328,20 +331,11 @@
   contain: layout style;
 }
 
-/* ─── Optimized Entrance Animations ─────────────────────────── */
-.animate-enter {
-  animation: enter 0.5s var(--ease-out) forwards;
-}
-
-@keyframes enter {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .animate-enter {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

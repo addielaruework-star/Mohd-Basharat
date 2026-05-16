@@ -1,10 +1,8 @@
 import { memo } from 'react'
-import { m } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
 import SectionWrapper from '../components/SectionWrapper'
-import { fadeInLeft, fadeInRight } from '../animations/variants'
 import { useProfile } from '../hooks/useFirebaseData'
 import { useSiteAssets } from '../context/SiteAssetsContext'
 import { useSEO } from '../lib/useSEO'
@@ -83,26 +81,25 @@ const Home = memo(function Home() {
 
           <div style={{ maxWidth: 560, paddingTop: '6rem', paddingBottom: '6rem' }}>
 
-            <p className="eyebrow mb-5 animate-enter">
+            <p className="eyebrow mb-5">
               Official Digital Portfolio
             </p>
 
             <div style={{ overflow: 'hidden', marginBottom: '1.25rem' }}>
               <h1
-                className="font-display font-bold text-white animate-enter"
-                style={{ fontSize: 'clamp(2.8rem, 6vw, 4.5rem)', lineHeight: 1.05, letterSpacing: '-0.02em', animationDelay: '0.1s' }}
+                className="font-display font-bold text-white"
+                style={{ fontSize: 'clamp(2.8rem, 6vw, 4.5rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
               >
                 {firstName}<br />{restName}
               </h1>
             </div>
 
             <div
-              className="gold-rule mb-6 animate-enter"
-              style={{ transformOrigin: 'left', animationDelay: '0.2s' }}
+              className="gold-rule mb-6"
+              style={{ transformOrigin: 'left' }}
             />
 
             <p
-              className="animate-enter"
               style={{
                 fontSize: '1.1rem',
                 color: 'rgba(255,255,255,0.9)',
@@ -110,15 +107,13 @@ const Home = memo(function Home() {
                 fontWeight: 400,
                 marginBottom: '2.5rem',
                 maxWidth: 480,
-                animationDelay: '0.3s'
               }}
             >
               {profile?.heroSubtitle || 'Committed social activist and humanitarian leader dedicated to promoting human rights and social justice.'}
             </p>
 
             <div
-              className="flex items-center gap-6 flex-wrap mt-2 animate-enter"
-              style={{ animationDelay: '0.4s' }}
+              className="flex items-center gap-6 flex-wrap mt-2"
             >
               <Link to="/about" className="btn-primary">
                 Explore Profile <ArrowRight size={14} />

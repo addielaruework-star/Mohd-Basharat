@@ -122,8 +122,7 @@ const Gallery = memo(function Gallery() {
           {loading ? (
             <SkeletonGallery count={8} />
           ) : (
-            <AnimatePresence mode="wait">
-            <div key={active} className="masonry-grid animate-enter">
+            <div key={active} className="masonry-grid">
 
                 {filtered.map((item, i) => (
                   <div
@@ -178,7 +177,6 @@ const Gallery = memo(function Gallery() {
                   </div>
                 ))}
               </div>
-            </AnimatePresence>
           )}
         </div>
       </section>
