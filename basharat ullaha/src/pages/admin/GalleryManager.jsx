@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { Upload, Trash2, Image as ImageIcon, Loader2, X, AlertCircle, CheckCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { getCollectionData, addCollectionItem, deleteCollectionItem } from '../../services/firebaseService';
 import { uploadImage } from '../../lib/cloudinary';
 import { SkeletonGallery } from '../../components/SkeletonLoaders';
 import { galleryData } from '../../data/galleryData';
+import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl';
+import LazyImage from '../../components/LazyImage';
 
 const CATEGORIES = ['Social Activities', 'Awards & Felicitations', 'Meetings & Conferences', 'Public Events & Speaking', 'Certificates & Achievements'];
 
@@ -144,7 +146,7 @@ export default function GalleryManager() {
       {/* Toast Notification */}
       <AnimatePresence>
         {toast.show && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -156,20 +158,20 @@ export default function GalleryManager() {
           >
             {toast.type === 'success' ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
             <span className="text-[0.9rem] font-medium">{toast.message}</span>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Confirmation Modal */}
       <AnimatePresence>
         {confirmModal.show && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
           >
-            <motion.div
+            <m.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -191,8 +193,8 @@ export default function GalleryManager() {
                   Delete
                 </button>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -203,10 +205,8 @@ export default function GalleryManager() {
       </div>
 
       {/* Upload Section */}
-      <motion.div 
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-        className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 overflow-hidden shadow-lg shadow-black/20"
-      >
+      <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 overflow-hidden shadow-lg shadow-black/20 animate-enter">
+
         <div className="p-6 lg:p-8 border-b border-slate-800 bg-[#c9a84c]/5">
           <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em]">Upload New Asset</h3>
         </div>
@@ -235,7 +235,7 @@ export default function GalleryManager() {
               </div>
             ) : (
               <div className="relative rounded-2xl overflow-hidden h-[340px] border border-white/[0.1] group bg-black">
-                <img src={preview} alt="Preview" className="w-full h-full object-cover opacity-90" />
+                <LazyImage src={preview} alt="Preview" className="w-full h-full opacity-90" />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
                   <button type="button" onClick={clearSelection} className="bg-red-500/20 hover:bg-red-500/40 text-red-100 p-4 rounded-full transition-colors border border-red-500/30">
                     <X size={20} />
@@ -306,10 +306,12 @@ export default function GalleryManager() {
             </button>
           </div>
         </form>
-      </motion.div>
+      </div>
+
 
       {/* Asset Library */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
+      <div className="animate-enter" style={{ animationDelay: '0.1s' }}>
+
         <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6">Asset Library</h3>
         
         {loading ? (
@@ -317,13 +319,12 @@ export default function GalleryManager() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
             {(images.length > 0 ? images : galleryData).map((img, i) => (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.05, duration: 0.4 }}
+              <div 
                 key={img.id} 
                 className="bg-slate-900/80 backdrop-blur-xl rounded-xl border border-slate-800 overflow-hidden group hover:border-[#c9a84c]/50 transition-all duration-300 shadow-lg shadow-black/20"
               >
                 <div className="aspect-[4/3] relative bg-slate-950/50">
-                  <img src={img.url} alt={img.caption} loading="lazy" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+                  <LazyImage src={optimizeCloudinaryUrl(img.url)} alt={img.caption} className="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                     {deletingId === img.id ? (
                       <Loader2 className="animate-spin text-red-500" size={20} />
@@ -342,11 +343,12 @@ export default function GalleryManager() {
                   <p className="text-[0.6rem] font-bold text-slate-400 uppercase tracking-[0.1em] truncate mb-1.5">{img.category}</p>
                   <p className="text-[0.85rem] text-[#ddd] truncate" title={img.caption}>{img.caption || 'Untitled Asset'}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
-      </motion.div>
+      </div>
+
     </div>
   );
 }

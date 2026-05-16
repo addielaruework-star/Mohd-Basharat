@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
@@ -9,19 +9,9 @@ import { useProfile } from '../hooks/useFirebaseData'
 import { useSiteAssets } from '../context/SiteAssetsContext'
 import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
+import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
+import LazyImage from '../components/LazyImage'
 
-const heroStagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
-}
-const heroItem = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-}
-const ruleAnim = {
-  hidden: { scaleX: 0 },
-  visible: { scaleX: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.3 } },
-}
 
 const Home = memo(function Home() {
   const { profile, loading } = useProfile()
@@ -75,12 +65,12 @@ const Home = memo(function Home() {
           className="absolute right-0 top-0 bottom-0 hidden lg:block"
           style={{ width: '48%' }}
         >
-          <img
-            src={heroImg}
+          <LazyImage
+            src={optimizeCloudinaryUrl(heroImg)}
             alt="Profile"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full"
             style={{ objectPosition: 'center 35%' }}
-            loading="lazy"
+            isHero={true}
           />
           <div
             className="absolute inset-y-0 left-0 w-40"
@@ -89,36 +79,30 @@ const Home = memo(function Home() {
         </div>
 
         {/* Left text content */}
-        <motion.div
-          variants={heroStagger}
-          initial="hidden"
-          animate="visible"
-          className="relative z-10 container-custom"
-        >
+        <div className="relative z-10 container-custom">
+
           <div style={{ maxWidth: 560, paddingTop: '6rem', paddingBottom: '6rem' }}>
 
-            <motion.p variants={heroItem} className="eyebrow mb-5">
+            <p className="eyebrow mb-5 animate-enter">
               Official Digital Portfolio
-            </motion.p>
+            </p>
 
             <div style={{ overflow: 'hidden', marginBottom: '1.25rem' }}>
-              <motion.h1
-                variants={heroItem}
-                className="font-display font-bold text-white"
-                style={{ fontSize: 'clamp(2.8rem, 6vw, 4.5rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
+              <h1
+                className="font-display font-bold text-white animate-enter"
+                style={{ fontSize: 'clamp(2.8rem, 6vw, 4.5rem)', lineHeight: 1.05, letterSpacing: '-0.02em', animationDelay: '0.1s' }}
               >
                 {firstName}<br />{restName}
-              </motion.h1>
+              </h1>
             </div>
 
-            <motion.div
-              variants={ruleAnim}
-              className="gold-rule mb-6"
-              style={{ transformOrigin: 'left' }}
+            <div
+              className="gold-rule mb-6 animate-enter"
+              style={{ transformOrigin: 'left', animationDelay: '0.2s' }}
             />
 
-            <motion.p
-              variants={heroItem}
+            <p
+              className="animate-enter"
               style={{
                 fontSize: '1.1rem',
                 color: 'rgba(255,255,255,0.9)',
@@ -126,14 +110,15 @@ const Home = memo(function Home() {
                 fontWeight: 400,
                 marginBottom: '2.5rem',
                 maxWidth: 480,
+                animationDelay: '0.3s'
               }}
             >
               {profile?.heroSubtitle || 'Committed social activist and humanitarian leader dedicated to promoting human rights and social justice.'}
-            </motion.p>
+            </p>
 
-            <motion.div
-              variants={heroItem}
-              className="flex items-center gap-6 flex-wrap mt-2"
+            <div
+              className="flex items-center gap-6 flex-wrap mt-2 animate-enter"
+              style={{ animationDelay: '0.4s' }}
             >
               <Link to="/about" className="btn-primary">
                 Explore Profile <ArrowRight size={14} />
@@ -155,22 +140,22 @@ const Home = memo(function Home() {
               >
                 Get in Touch
               </Link>
-            </motion.div>
+            </div>
 
             {/* Mobile profile image */}
             <div className="lg:hidden mt-10">
               <div className="media-container aspect-square max-w-sm mx-auto" style={{ border: '1px solid rgba(201,168,76,0.18)' }}>
-                <img
-                  src={mobileHeroImg}
+                <LazyImage
+                  src={optimizeCloudinaryUrl(mobileHeroImg)}
                   alt="Profile"
-                  className="img-cover"
+                  className="w-full h-full"
                   style={{ objectPosition: 'center 35%' }}
-                  loading="lazy"
+                  isHero={true}
                 />
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Scroll hint */}
         <div
@@ -185,29 +170,18 @@ const Home = memo(function Home() {
       <SectionWrapper>
         <div className="container-custom">
           <div className="split-section">
-            <motion.div
-              variants={fadeInLeft}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-60px' }}
-            >
+            <div>
               <div className="media-container aspect-[3/4]" style={{ border: '1px solid rgba(201,168,76,0.15)' }}>
-                <img
-                  src={assets.biographyImage || images.gallery.publicEvents[0]}
+                <LazyImage
+                  src={optimizeCloudinaryUrl(assets.biographyImage || images.gallery.publicEvents[0])}
                   alt="Event Photo"
-                  className="img-cover"
+                  className="w-full h-full"
                   style={{ objectPosition: 'center 35%' }}
-                  loading="lazy"
                 />
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              variants={fadeInRight}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-60px' }}
-            >
+            <div>
               <p className="eyebrow mb-4">About</p>
               <h2 className="section-title mb-4" style={{ maxWidth: 400 }}>
                 A Life Devoted to People
@@ -226,7 +200,7 @@ const Home = memo(function Home() {
                   Full Biography <ArrowRight size={14} />
                 </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </SectionWrapper>
@@ -235,12 +209,7 @@ const Home = memo(function Home() {
       <div style={{ background: 'var(--cream)', padding: 'var(--sp-xl) 0' }}>
         <div className="container-custom">
           <div className="split-section" style={{ alignItems: 'flex-start' }}>
-            <motion.div
-              variants={fadeInLeft}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-60px' }}
-            >
+            <div>
               <p className="eyebrow mb-3">Leadership &amp; Service</p>
               <h2 className="section-title mb-6">Positions Held</h2>
               <div className="gold-rule mb-8" />
@@ -259,24 +228,18 @@ const Home = memo(function Home() {
               <p style={{ marginTop: '2rem', fontSize: '0.9rem', color: 'var(--gray-mid)', lineHeight: 1.7, maxWidth: 400 }}>
                 Worked with multiple national and international organizations on social impact initiatives.
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              variants={fadeInRight}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-60px' }}
-            >
+            <div>
               <div className="media-container aspect-[4/3]" style={{ border: '1px solid rgba(201,168,76,0.15)' }}>
-                <img
-                  src={assets.aboutBanner || images.gallery.meetings[0]}
+                <LazyImage
+                  src={optimizeCloudinaryUrl(assets.aboutBanner || images.gallery.meetings[0])}
                   alt="Leadership Photo"
-                  className="img-cover"
+                  className="w-full h-full"
                   style={{ objectPosition: 'center 35%' }}
-                  loading="lazy"
                 />
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
@@ -307,12 +270,11 @@ const Home = memo(function Home() {
 
       {/* ── FULL-WIDTH GALLERY BANNER ──────────────────────────── */}
       <div className="relative overflow-hidden section-banner-height">
-        <img
-          src={galleryBannerImg}
+        <LazyImage
+          src={optimizeCloudinaryUrl(galleryBannerImg)}
           alt="Visual Chronicle"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full"
           style={{ objectPosition: 'center 30%' }}
-          loading="lazy"
         />
         <div className="overlay-premium flex items-end">
           <div className="container-custom pb-10">

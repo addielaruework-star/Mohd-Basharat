@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Shield, Key, Loader2, CheckCircle2, AlertCircle, Monitor, Moon } from 'lucide-react';
 
 export default function Settings() {
@@ -40,10 +40,8 @@ export default function Settings() {
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="max-w-4xl space-y-10"
-    >
+    <div className="max-w-4xl space-y-10 animate-enter">
+
       <div>
         <h2 className="font-sans font-semibold text-2xl text-slate-100 tracking-tight">System Settings</h2>
         <p className="text-sm text-slate-400 mt-1.5">Manage your security preferences and application theme.</p>
@@ -66,14 +64,15 @@ export default function Settings() {
 
             <AnimatePresence>
               {status && (
-                <motion.div initial={{ opacity: 0, height: 0, scale: 0.95 }} animate={{ opacity: 1, height: 'auto', scale: 1 }} exit={{ opacity: 0, height: 0 }} className="mb-6">
+                <m.div initial={{ opacity: 0, height: 0, scale: 0.95 }} animate={{ opacity: 1, height: 'auto', scale: 1 }} exit={{ opacity: 0, height: 0 }} className="mb-6">
+
                   <div className={`p-4 rounded-xl flex items-center gap-3 text-sm font-medium border ${
                     status.type === 'success' ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-red-500/10 border-red-500/20 text-red-400'
                   }`}>
                     {status.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
                     {status.message}
                   </div>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
 
@@ -143,6 +142,7 @@ export default function Settings() {
         </div>
 
       </div>
-    </motion.div>
+    </div>
+
   );
 }

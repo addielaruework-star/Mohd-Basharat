@@ -8,6 +8,8 @@ import { useCollection } from '../hooks/useFirebaseData'
 import { useSiteAssets } from '../context/SiteAssetsContext'
 import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
+import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
+import LazyImage from '../components/LazyImage'
 
 const iconMap = { Trophy, Star, Award }
 
@@ -123,12 +125,11 @@ const Awards = memo(function Awards() {
 
       {/* Full-width image — CMS managed */}
       <div className="relative overflow-hidden" style={{ height: 'clamp(350px, 60vh, 520px)' }}>
-        <img
-          src={bannerImg}
+        <LazyImage
+          src={optimizeCloudinaryUrl(bannerImg)}
           alt="Award Ceremony"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full"
           style={{ objectPosition: 'center 30%' }}
-          loading="lazy"
         />
         <div className="overlay-premium flex items-end">
           <div className="container-custom pb-8">

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import {
   Image as ImageIcon, Upload, X, Loader2, CheckCircle,
   AlertCircle, RotateCcw, Globe
@@ -7,6 +7,8 @@ import {
 import { uploadImage } from '../../lib/cloudinary';
 import { saveSiteAssets, DEFAULT_ASSETS } from '../../context/SiteAssetsContext';
 import { useSiteAssets } from '../../context/SiteAssetsContext';
+import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl';
+import LazyImage from '../../components/LazyImage';
 
 /* ── Asset slot definitions ───────────────────────────────────────────── */
 const ASSET_SLOTS = [
@@ -27,7 +29,7 @@ function Toast({ toast }) {
   return (
     <AnimatePresence>
       {toast.show && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -24 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -24 }}
@@ -39,7 +41,7 @@ function Toast({ toast }) {
         >
           {toast.type === 'success' ? <CheckCircle size={17} /> : <AlertCircle size={17} />}
           <span className="text-[0.88rem] font-medium">{toast.message}</span>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );
@@ -77,10 +79,7 @@ function AssetCard({ slotKey, label, desc, currentUrl, onSave, onRemove }) {
   };
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden hover:border-[#c9a84c]/30 transition-all duration-300 shadow-lg shadow-black/20"
     >
       {/* Image Preview */}
@@ -93,11 +92,10 @@ function AssetCard({ slotKey, label, desc, currentUrl, onSave, onRemove }) {
       >
         {currentUrl ? (
           <>
-            <img
-              src={currentUrl}
+            <LazyImage
+              src={optimizeCloudinaryUrl(currentUrl)}
               alt={label}
-              loading="lazy"
-              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
+              className="w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
             />
             {/* Overlay on hover */}
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
@@ -155,7 +153,7 @@ function AssetCard({ slotKey, label, desc, currentUrl, onSave, onRemove }) {
           </button>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -203,7 +201,8 @@ export default function SiteAssetsManager() {
       <Toast toast={toast} />
 
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+      <div className="animate-enter">
+
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5">
           <div>
             <h2 className="font-sans font-medium text-2xl text-slate-100 tracking-tight">Site Assets</h2>
@@ -218,7 +217,8 @@ export default function SiteAssetsManager() {
             <RotateCcw size={13} /> Reset All to Defaults
           </button>
         </div>
-      </motion.div>
+      </div>
+
 
       {/* Info Banner */}
       <div className="bg-[#c9a84c]/5 border border-[#c9a84c]/20 rounded-xl px-5 py-4 flex items-start gap-3">
@@ -229,11 +229,9 @@ export default function SiteAssetsManager() {
       </div>
 
       {/* Asset Grid */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.15, duration: 0.5 }}
-        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 animate-enter"
+        style={{ animationDelay: '0.15s' }}
       >
         {ASSET_SLOTS.map((slot) => (
           <AssetCard
@@ -246,7 +244,8 @@ export default function SiteAssetsManager() {
             onRemove={handleRemove}
           />
         ))}
-      </motion.div>
+      </div>
+
     </div>
   );
 }

@@ -7,6 +7,8 @@ import SectionTitle from '../components/SectionTitle'
 import { useCollection } from '../hooks/useFirebaseData'
 import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
+import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
+import LazyImage from '../components/LazyImage'
 
 const connections = [
   'Network with NGOs, activists, and social organizations',
@@ -96,12 +98,11 @@ const Connections = memo(function Connections() {
           </div>
 
           <div className="media-container aspect-[16/9] mt-16">
-            <img
-              src={images.gallery.meetings[1]}
+            <LazyImage
+              src={optimizeCloudinaryUrl(images.gallery.meetings[1])}
               alt="Collaboration"
-              className="img-cover"
+              className="w-full h-full"
               style={{ objectPosition: 'center 30%' }}
-              loading="lazy"
             />
           </div>
         </div>

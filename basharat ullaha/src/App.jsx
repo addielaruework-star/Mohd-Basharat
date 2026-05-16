@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react'
+import { LazyMotion, domAnimation } from 'framer-motion'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { ProfileProvider } from './context/ProfileContext'
@@ -63,60 +64,62 @@ function PageLoader() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ProfileProvider>
-        <SiteAssetsProvider>
-        <BrowserRouter>
-          <Toaster 
-            position="top-center" 
-            toastOptions={{
-              style: {
-                background: '#0f172a',
-                color: '#f8fafc',
-                border: '1px solid rgba(201,168,76,0.2)',
-                borderRadius: '12px',
-                padding: '16px',
-                fontFamily: 'Inter, sans-serif'
-              }
-            }} 
-          />
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route element={<MainLayout />}>
-                <Route path="/"                element={<Home />} />
-                <Route path="/about"           element={<About />} />
-                <Route path="/achievements"    element={<Achievements />} />
-                <Route path="/social-services" element={<SocialServices />} />
-                <Route path="/awards"          element={<Awards />} />
-                <Route path="/certificates"    element={<Certificates />} />
-                <Route path="/gallery"         element={<Gallery />} />
-                <Route path="/connections"     element={<Connections />} />
-                <Route path="/contact"         element={<Contact />} />
-              </Route>
-
-              {/* Admin Routes */}
-              <Route path="/admin/login"           element={<Login />} />
-              <Route path="/admin/forgot-password" element={<ForgotPassword />} />
-              <Route
-                path="/admin"
-                element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}
-              >
-                <Route path="dashboard"    element={<Dashboard />} />
-                <Route path="profile"      element={<ProfileManager />} />
-                <Route path="gallery"      element={<GalleryManager />} />
-                <Route path="achievements" element={<AchievementsManager />} />
-                <Route path="awards"       element={<AwardsManager />} />
-                <Route path="certificates" element={<CertificatesManager />} />
-                <Route path="connections"  element={<ConnectionsManager />} />
-                <Route path="settings"     element={<Settings />} />
-                <Route path="site-assets"  element={<SiteAssetsManager />} />
-                <Route path="messages"     element={<MessagesManager />} />
-              </Route>
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-        </SiteAssetsProvider>
-      </ProfileProvider>
-    </AuthProvider>
+    <LazyMotion features={domAnimation}>
+      <AuthProvider>
+        <ProfileProvider>
+          <SiteAssetsProvider>
+          <BrowserRouter>
+            <Toaster 
+              position="top-center" 
+              toastOptions={{
+                style: {
+                  background: '#0f172a',
+                  color: '#f8fafc',
+                  border: '1px solid rgba(201,168,76,0.2)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  fontFamily: 'Inter, sans-serif'
+                }
+              }} 
+            />
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route element={<MainLayout />}>
+                  <Route path="/"                element={<Home />} />
+                  <Route path="/about"           element={<About />} />
+                  <Route path="/achievements"    element={<Achievements />} />
+                  <Route path="/social-services" element={<SocialServices />} />
+                  <Route path="/awards"          element={<Awards />} />
+                  <Route path="/certificates"    element={<Certificates />} />
+                  <Route path="/gallery"         element={<Gallery />} />
+                  <Route path="/connections"     element={<Connections />} />
+                  <Route path="/contact"         element={<Contact />} />
+                </Route>
+  
+                {/* Admin Routes */}
+                <Route path="/admin/login"           element={<Login />} />
+                <Route path="/admin/forgot-password" element={<ForgotPassword />} />
+                <Route
+                  path="/admin"
+                  element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}
+                >
+                  <Route path="dashboard"    element={<Dashboard />} />
+                  <Route path="profile"      element={<ProfileManager />} />
+                  <Route path="gallery"      element={<GalleryManager />} />
+                  <Route path="achievements" element={<AchievementsManager />} />
+                  <Route path="awards"       element={<AwardsManager />} />
+                  <Route path="certificates" element={<CertificatesManager />} />
+                  <Route path="connections"  element={<ConnectionsManager />} />
+                  <Route path="settings"     element={<Settings />} />
+                  <Route path="site-assets"  element={<SiteAssetsManager />} />
+                  <Route path="messages"     element={<MessagesManager />} />
+                </Route>
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+          </SiteAssetsProvider>
+        </ProfileProvider>
+      </AuthProvider>
+    </LazyMotion>
   )
 }

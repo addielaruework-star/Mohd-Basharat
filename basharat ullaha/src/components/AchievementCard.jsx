@@ -1,9 +1,7 @@
-import { motion } from 'framer-motion'
-
 export default function AchievementCard({ icon: Icon, title, description, year, category }) {
   return (
-    <motion.div
-      whileHover={{ y: -4, boxShadow: '0 14px 40px rgba(11,29,53,0.12)' }}
+    <div
+      className="group"
       style={{
         background: '#fff',
         borderRadius: 10,
@@ -12,11 +10,19 @@ export default function AchievementCard({ icon: Icon, title, description, year, 
         boxShadow: '0 2px 14px rgba(11,29,53,0.06)',
         position: 'relative',
         overflow: 'hidden',
-        transition: 'all 0.3s ease',
+        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
         gap: '1rem',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow = '0 14px 40px rgba(11,29,53,0.12)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 2px 14px rgba(11,29,53,0.06)';
       }}
     >
       {/* Gold top accent */}
@@ -62,6 +68,6 @@ export default function AchievementCard({ icon: Icon, title, description, year, 
           )}
         </div>
       )}
-    </motion.div>
+    </div>
   )
 }

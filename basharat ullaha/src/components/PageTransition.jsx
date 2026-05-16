@@ -2,7 +2,7 @@
  * PageTransition — wraps each route with a consistent fade-in/slide-up.
  * Lightweight: single motion.div, duration 0.3s, no spring physics.
  */
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const variants = {
   hidden:  { opacity: 0, y: 10 },
@@ -12,7 +12,7 @@ const variants = {
 
 export default function PageTransition({ children }) {
   return (
-    <motion.div
+    <m.div
       variants={variants}
       initial="hidden"
       animate="visible"
@@ -20,6 +20,6 @@ export default function PageTransition({ children }) {
       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Image as ImageIcon, UserCircle, Award, FileText, Link as LinkIcon, Trophy, ArrowRight, Activity, LayoutDashboard, Settings, Mail, Inbox } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { db } from '../../lib/firebase';
@@ -37,12 +36,12 @@ export default function Dashboard() {
     <div className="text-slate-100 space-y-12 pb-12">
       
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+      <div className="animate-enter">
         <h1 className="font-sans font-medium text-3xl mb-3 tracking-tight">Overview</h1>
         <p className="text-slate-400 text-[0.95rem] max-w-2xl leading-relaxed">
           Welcome to your content management system. Access core modules to update your public portfolio.
         </p>
-      </motion.div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
@@ -52,10 +51,7 @@ export default function Dashboard() {
           {/* Quick Stats / Status */}
           <section>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <motion.div
-                initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
-                className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 flex items-center justify-between"
-              >
+              <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 flex items-center justify-between animate-enter" style={{ animationDelay: '0.1s' }}>
                 <div>
                   <p className="text-[0.7rem] font-medium text-slate-400 uppercase tracking-widest mb-1">System Status</p>
                   <p className="text-slate-100 font-medium flex items-center gap-2">
@@ -64,12 +60,9 @@ export default function Dashboard() {
                   </p>
                 </div>
                 <Activity size={20} className="text-slate-600" />
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.6 }}
-                className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 flex items-center justify-between"
-              >
+              <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 flex items-center justify-between animate-enter" style={{ animationDelay: '0.15s' }}>
                 <div>
                   <p className="text-[0.7rem] font-medium text-slate-400 uppercase tracking-widest mb-1">Messages</p>
                   <p className="text-slate-100 font-medium text-sm flex items-center gap-2">
@@ -81,7 +74,7 @@ export default function Dashboard() {
                   </p>
                 </div>
                 <Mail size={20} className="text-slate-600" />
-              </motion.div>
+              </div>
             </div>
           </section>
 
@@ -90,10 +83,7 @@ export default function Dashboard() {
             <h2 className="text-[0.8rem] font-semibold text-slate-400 uppercase tracking-widest mb-5">Content Management</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {contentCards.map((card, i) => (
-                <motion.div
-                  key={card.title}
-                  initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 + 0.2, duration: 0.5 }}
-                >
+                <div key={card.title} className="animate-enter" style={{ animationDelay: `${i * 0.05 + 0.2}s` }}>
                   <Link 
                     to={card.to}
                     className="flex items-start gap-4 p-6 bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 hover:bg-slate-950/50 hover:border-[#c9a84c]/50 transition-all duration-300 group h-full"
@@ -108,7 +98,7 @@ export default function Dashboard() {
                       <p className="text-[0.85rem] text-slate-500 leading-relaxed">{card.desc}</p>
                     </div>
                   </Link>
-                </motion.div>
+                </div>
               ))}
             </div>
           </section>
@@ -120,10 +110,7 @@ export default function Dashboard() {
           {/* Action Menu */}
           <section>
             <h2 className="text-[0.8rem] font-semibold text-slate-400 uppercase tracking-widest mb-5">Core Modules</h2>
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.6 }}
-              className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-2"
-            >
+            <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-2 animate-enter" style={{ animationDelay: '0.3s' }}>
               {overviewActions.map((action, i) => (
                 <Link 
                   key={action.label} 
@@ -137,7 +124,7 @@ export default function Dashboard() {
                   <ArrowRight size={16} className="text-slate-600 group-hover:text-slate-100 transition-colors" />
                 </Link>
               ))}
-            </motion.div>
+            </div>
           </section>
 
           {/* Recent Messages Widget */}
@@ -148,10 +135,7 @@ export default function Dashboard() {
                 View all <ArrowRight size={12} />
               </Link>
             </div>
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.6 }}
-              className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 overflow-hidden"
-            >
+            <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 overflow-hidden animate-enter" style={{ animationDelay: '0.4s' }}>
               {recentMessages.length === 0 ? (
                 <div className="p-8 text-center flex flex-col items-center justify-center min-h-[200px]">
                   <div className="w-12 h-12 rounded-full bg-[#c9a84c]/5 border border-slate-800/50 flex items-center justify-center mb-4">
@@ -184,7 +168,7 @@ export default function Dashboard() {
                   ))}
                 </ul>
               )}
-            </motion.div>
+            </div>
           </section>
 
         </div>

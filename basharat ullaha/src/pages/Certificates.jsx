@@ -8,6 +8,8 @@ import { useCollection } from '../hooks/useFirebaseData'
 import { useSiteAssets } from '../context/SiteAssetsContext'
 import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
+import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
+import LazyImage from '../components/LazyImage'
 
 const certificates = [
   { title: 'Certification in Human Rights and Social Justice Initiatives', type: 'Certification' },
@@ -111,12 +113,11 @@ const Certificates = memo(function Certificates() {
 
           {/* CMS-managed image */}
           <div className="media-container aspect-[16/9] mt-16">
-            <img
-              src={bannerImg}
+            <LazyImage
+              src={optimizeCloudinaryUrl(bannerImg)}
               alt="Certificate"
-              className="img-cover"
+              className="w-full h-full"
               style={{ objectPosition: 'center center' }}
-              loading="lazy"
             />
           </div>
         </div>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Lock, Mail, AlertCircle, ArrowRight, Eye, EyeOff, Check } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -37,11 +37,8 @@ export default function Login() {
       {/* Subtle Blue-Gray Radial Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-slate-800/20 blur-[120px] rounded-full pointer-events-none" />
       
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[440px] relative z-10"
+      <div 
+        className="w-full max-w-[440px] relative z-10 animate-enter"
       >
         <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl p-8 sm:p-12 border border-slate-800 shadow-2xl relative">
           
@@ -55,7 +52,7 @@ export default function Login() {
 
           <AnimatePresence>
             {error && (
-              <motion.div 
+              <m.div 
                 initial={{ opacity: 0, height: 0, scale: 0.95 }}
                 animate={{ opacity: 1, height: 'auto', scale: 1 }}
                 exit={{ opacity: 0, height: 0, scale: 0.95 }}
@@ -63,7 +60,7 @@ export default function Login() {
               >
                 <AlertCircle size={18} className="shrink-0 mt-0.5" />
                 <p className="leading-relaxed">{error}</p>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
@@ -138,7 +135,8 @@ export default function Login() {
         <div className="text-center mt-8">
           <p className="text-slate-500 text-[0.75rem]">Protected Area • Authorized Personnel Only</p>
         </div>
-      </motion.div>
+      </div>
+
     </div>
   );
 }

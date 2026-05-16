@@ -6,7 +6,7 @@ import {
   FileText, Link as LinkIcon, Trophy, LogOut, Menu, X, 
   Settings, ChevronDown, Monitor, Layers, Mail
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
@@ -63,7 +63,7 @@ export default function AdminLayout() {
       {/* Mobile sidebar overlay */}
       <AnimatePresence>
         {sidebarOpen && (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
             className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-40 lg:hidden"
             onClick={() => setSidebarOpen(false)}

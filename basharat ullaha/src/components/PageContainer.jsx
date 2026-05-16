@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { pageTransition } from '../animations/variants'
 
 export default function PageContainer({ children, className = '' }) {
   return (
-    <motion.div
+    <m.div
       initial={pageTransition.initial}
       animate={pageTransition.animate}
       exit={pageTransition.exit}
@@ -11,6 +11,6 @@ export default function PageContainer({ children, className = '' }) {
       className={`page-transition ${className}`}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }

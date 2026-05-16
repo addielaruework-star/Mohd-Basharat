@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, memo } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { profileData } from '../data/profileData'
 import { useProfile } from '../hooks/useFirebaseData'
@@ -51,15 +51,15 @@ const Navbar = memo(function Navbar() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50"
+        className="fixed top-0 left-0 right-0 z-50 touch-none lg:touch-auto"
         style={{
           height: 72,
           background: bg,
           boxShadow: shadow,
-          // Lighter blur: only when solid, reduced to 8px from 16px
-          backdropFilter: solid ? 'blur(8px)' : 'none',
-          WebkitBackdropFilter: solid ? 'blur(8px)' : 'none',
-          transition: 'background 0.25s, box-shadow 0.25s',
+          // Expensive blur reduced for mobile performance
+          backdropFilter: solid ? 'blur(10px)' : 'none',
+          WebkitBackdropFilter: solid ? 'blur(10px)' : 'none',
+          transition: 'background 0.25s, box-shadow 0.25s, backdrop-filter 0.25s',
         }}
       >
         <div className="container-custom h-full flex items-center justify-between">
@@ -100,7 +100,7 @@ const Navbar = memo(function Navbar() {
                     <>
                       {link.label}
                       {isActive && (
-                        <motion.span
+                        <m.span
                           layoutId="nav-indicator"
                           style={{
                             position: 'absolute',
@@ -135,7 +135,7 @@ const Navbar = memo(function Navbar() {
       {/* Mobile drawer */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <m.div
             variants={mobileMenuVariants}
             initial="hidden"
             animate="visible"
@@ -164,7 +164,7 @@ const Navbar = memo(function Navbar() {
                 </NavLink>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

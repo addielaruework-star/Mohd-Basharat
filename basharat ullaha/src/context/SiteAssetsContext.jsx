@@ -1,11 +1,11 @@
 /**
- * useSiteAssets — shared singleton hook for settings/siteAssets document.
- * Uses a real-time onSnapshot listener so every admin upload reflects instantly
- * across all open browser tabs without a page reload.
+ * SiteAssetsContext — Optimized shared hook for site assets.
+ * Uses sessionStorage caching for faster perceived performance.
+ * Switched from real-time onSnapshot to getDoc to minimize background listeners.
  */
 import { createContext, useContext, useEffect, useState } from 'react'
-import { db } from '../firebase/firebase'
-import { doc, onSnapshot, setDoc } from 'firebase/firestore'
+import { db } from '../lib/firebase'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 /** Default fallback structure — matches what the pages already hard-code */
 export const DEFAULT_ASSETS = {
@@ -22,25 +22,38 @@ export const DEFAULT_ASSETS = {
 }
 
 const SiteAssetsContext = createContext({ assets: DEFAULT_ASSETS, loading: true })
+const CACHE_KEY = 'mb_assets_cache'
 
 export function SiteAssetsProvider({ children }) {
-  const [assets, setAssets] = useState(DEFAULT_ASSETS)
-  const [loading, setLoading] = useState(true)
+  const [assets, setAssets] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem(CACHE_KEY)
+      return cached ? JSON.parse(cached) : DEFAULT_ASSETS
+    } catch {
+      return DEFAULT_ASSETS
+    }
+  })
+  const [loading, setLoading] = useState(assets === DEFAULT_ASSETS)
 
   useEffect(() => {
     const ref = doc(db, 'settings', 'siteAssets')
-    const unsub = onSnapshot(
-      ref,
-      (snap) => {
-        setAssets(snap.exists() ? { ...DEFAULT_ASSETS, ...snap.data() } : DEFAULT_ASSETS)
-        setLoading(false)
-      },
-      (err) => {
+    
+    const fetchAssets = async () => {
+      try {
+        const snap = await getDoc(ref)
+        if (snap.exists()) {
+          const data = { ...DEFAULT_ASSETS, ...snap.data() }
+          setAssets(data)
+          sessionStorage.setItem(CACHE_KEY, JSON.stringify(data))
+        }
+      } catch (err) {
         console.error('siteAssets fetch error:', err)
+      } finally {
         setLoading(false)
       }
-    )
-    return unsub
+    }
+
+    fetchAssets()
   }, [])
 
   return (

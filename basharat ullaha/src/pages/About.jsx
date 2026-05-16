@@ -8,6 +8,8 @@ import { useProfile } from '../hooks/useFirebaseData'
 import { useSiteAssets } from '../context/SiteAssetsContext'
 import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
+import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
+import LazyImage from '../components/LazyImage'
 
 const About = memo(function About() {
   const { profile, loading } = useProfile()
@@ -50,12 +52,11 @@ const About = memo(function About() {
           <div className="split-section">
             <div>
               <div className="media-container aspect-[3/4]" style={{ border: '1px solid rgba(201,168,76,0.14)' }}>
-                <img
-                  src={profileImg}
+                <LazyImage
+                  src={optimizeCloudinaryUrl(profileImg)}
                   alt="Profile"
-                  className="img-cover"
+                  className="w-full h-full"
                   style={{ objectPosition: 'center 25%' }}
-                  loading="lazy"
                 />
               </div>
             </div>
@@ -138,12 +139,11 @@ const About = memo(function About() {
       
       {/* Visual Break */}
       <div className="relative overflow-hidden section-banner-height">
-        <img
-          src={aboutBannerImg}
+        <LazyImage
+          src={optimizeCloudinaryUrl(aboutBannerImg)}
           alt="Community Service"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full"
           style={{ objectPosition: 'center center' }}
-          loading="lazy"
         />
         <div className="overlay-premium" />
       </div>

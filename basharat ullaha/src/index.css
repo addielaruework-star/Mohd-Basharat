@@ -38,6 +38,8 @@
   html {
     scroll-behavior: smooth;
     font-size: 16px;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
@@ -46,6 +48,8 @@
     color: var(--text-body);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   img { display: block; max-width: 100%; }
@@ -322,4 +326,22 @@
 /* ─── Performance hints ──────────────────────────────────────── */
 .masonry-item {
   contain: layout style;
+}
+
+/* ─── Optimized Entrance Animations ─────────────────────────── */
+.animate-enter {
+  animation: enter 0.5s var(--ease-out) forwards;
+}
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

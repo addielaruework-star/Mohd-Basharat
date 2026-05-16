@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { LinkIcon, Plus, Trash2, Edit2, Loader2, Save, X } from 'lucide-react';
 import { getCollectionData, addCollectionItem, deleteCollectionItem, updateCollectionItem } from '../../services/firebaseService';
 
@@ -84,7 +84,7 @@ export default function ConnectionsManager() {
   return (
     <div className="space-y-10">
       
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+      <div className="animate-enter">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           <div>
             <h2 className="font-sans font-medium text-2xl text-slate-100 tracking-tight">Connections</h2>
@@ -96,11 +96,11 @@ export default function ConnectionsManager() {
             </button>
           )}
         </div>
-      </motion.div>
+      </div>
 
       <AnimatePresence mode="wait">
         {isEditing ? (
-          <motion.div 
+          <m.div 
             key="editor"
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
             className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden shadow-lg shadow-black/20"
@@ -144,9 +144,9 @@ export default function ConnectionsManager() {
                 </button>
               </div>
             </form>
-          </motion.div>
+          </m.div>
         ) : (
-          <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+          <div className="animate-enter">
             {loading ? (
               <div className="flex justify-center p-12"><Loader2 className="animate-spin text-slate-600" size={24} /></div>
             ) : items.length === 0 ? (
@@ -184,7 +184,7 @@ export default function ConnectionsManager() {
                 </ul>
               </div>
             )}
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

@@ -1,16 +1,16 @@
 import { memo } from 'react'
-import { motion } from 'framer-motion'
 import { Trophy, Users, Heart } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
 import PageHero from '../components/PageHero'
 import SectionWrapper from '../components/SectionWrapper'
 import SectionTitle from '../components/SectionTitle'
 import AchievementCard from '../components/AchievementCard'
-import { staggerContainer, staggerItem } from '../animations/variants'
 import { useCollection } from '../hooks/useFirebaseData'
 import { useSiteAssets } from '../context/SiteAssetsContext'
 import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
+import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
+import LazyImage from '../components/LazyImage'
 
 const highlights = [
   { icon: Trophy, title: 'Leadership & Vision', description: 'Driving meaningful social impact through principled leadership and collaboration.' },
@@ -40,19 +40,11 @@ const Achievements = memo(function Achievements() {
       <SectionWrapper>
         <div className="container-custom">
           <SectionTitle label="Impact" title="Key Focus Areas" align="center" />
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
             {highlights.map(item => (
-              <motion.div key={item.title} variants={staggerItem}>
-                <AchievementCard {...item} />
-              </motion.div>
+              <AchievementCard key={item.title} {...item} />
             ))}
-          </motion.div>
+          </div>
         </div>
       </SectionWrapper>
 
@@ -103,12 +95,11 @@ const Achievements = memo(function Achievements() {
 
       {/* Full-width CMS banner */}
       <div className="relative overflow-hidden section-banner-height">
-        <img
-          src={bannerImg}
+        <LazyImage
+          src={optimizeCloudinaryUrl(bannerImg)}
           alt="Community Event"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full"
           style={{ objectPosition: 'center 35%' }}
-          loading="lazy"
         />
         <div className="overlay-premium flex items-end">
           <div className="container-custom pb-8">

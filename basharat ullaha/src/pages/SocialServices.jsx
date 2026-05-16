@@ -8,6 +8,8 @@ import { useProfile, useCollection } from '../hooks/useFirebaseData'
 import { useSiteAssets } from '../context/SiteAssetsContext'
 import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
+import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
+import LazyImage from '../components/LazyImage'
 
 const iconMap = { Scale, Shield, Users, Megaphone, Box, Heart, LinkIcon }
 
@@ -63,12 +65,11 @@ const SocialServices = memo(function SocialServices() {
           <div className="split-section">
             <div>
               <div className="media-container aspect-[4/3]" style={{ border: '1px solid rgba(201,168,76,0.14)' }}>
-                <img
-                  src={assets.biographyImage || images.gallery.communityService[0]}
+                <LazyImage
+                  src={optimizeCloudinaryUrl(assets.biographyImage || images.gallery.communityService[0])}
                   alt="Community Service"
-                  className="img-cover"
+                  className="w-full h-full"
                   style={{ objectPosition: 'center center' }}
-                  loading="lazy"
                 />
               </div>
             </div>
@@ -123,12 +124,11 @@ const SocialServices = memo(function SocialServices() {
       
       {/* CMS-managed banner */}
       <div className="relative overflow-hidden" style={{ height: 'clamp(350px, 60vh, 520px)' }}>
-        <img
-          src={bannerImg}
+        <LazyImage
+          src={optimizeCloudinaryUrl(bannerImg)}
           alt="Community Service"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full"
           style={{ objectPosition: 'center 30%' }}
-          loading="lazy"
         />
         <div className="overlay-premium" />
       </div>

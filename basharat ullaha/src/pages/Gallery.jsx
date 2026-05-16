@@ -8,7 +8,7 @@
  * - Admin-uploaded images show a delete badge; local ones show "Default"
  */
 import { useState, useCallback, memo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
 import PageHero from '../components/PageHero'
@@ -16,6 +16,8 @@ import { useCollection } from '../hooks/useFirebaseData'
 import { useSEO } from '../lib/useSEO'
 import { SkeletonGallery } from '../components/SkeletonLoaders'
 import { galleryData } from '../data/galleryData'
+import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
+import LazyImage from '../components/LazyImage'
 
 const CATS = [
   'All',
@@ -121,14 +123,8 @@ const Gallery = memo(function Gallery() {
             <SkeletonGallery count={8} />
           ) : (
             <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="masonry-grid"
-              >
+            <div key={active} className="masonry-grid animate-enter">
+
                 {filtered.map((item, i) => (
                   <div
                     key={item.id}
@@ -143,11 +139,11 @@ const Gallery = memo(function Gallery() {
                       boxShadow: '0 2px 12px rgba(11,29,53,0.06)',
                     }}
                   >
-                    <img
-                      src={item.url}
+                    <LazyImage
+                      src={optimizeCloudinaryUrl(item.url)}
                       alt={item.caption}
-                      loading="lazy"
-                      style={{ width: '100%', height: 'auto', display: 'block' }}
+                      className="w-full"
+                      style={{ height: 'auto', display: 'block' }}
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = galleryData[0]?.url || '';
@@ -181,7 +177,7 @@ const Gallery = memo(function Gallery() {
                     )}
                   </div>
                 ))}
-              </motion.div>
+              </div>
             </AnimatePresence>
           )}
         </div>
@@ -190,7 +186,7 @@ const Gallery = memo(function Gallery() {
       {/* Fullscreen modal */}
       <AnimatePresence>
         {modal && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -199,7 +195,7 @@ const Gallery = memo(function Gallery() {
             style={{ background: 'rgba(7,16,30,0.95)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
             onClick={close}
           >
-            <motion.div
+            <m.div
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.92, opacity: 0 }}
@@ -214,10 +210,11 @@ const Gallery = memo(function Gallery() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 overflow: 'hidden',
               }}>
-                <img
-                  src={modal.url}
+                <LazyImage
+                  src={optimizeCloudinaryUrl(modal.url)}
                   alt={modal.caption}
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  className="w-full h-full"
+                  style={{ objectFit: 'contain' }}
                 />
               </div>
 
@@ -247,8 +244,8 @@ const Gallery = memo(function Gallery() {
 
               {idx > 0 && <NavBtn side="left" onClick={prev}><ChevronLeft size={18} /></NavBtn>}
               {idx < filtered.length - 1 && <NavBtn side="right" onClick={next}><ChevronRight size={18} /></NavBtn>}
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </PageContainer>

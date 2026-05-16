@@ -4,11 +4,11 @@
  */
 
 /* ── Pulse animation class helper ─── */
-const pulse = 'animate-pulse bg-slate-800/60 rounded'
+const pulse = 'animate-pulse bg-slate-800/40 rounded-lg' // Slightly more subtle background
 
 /* ── Generic skeleton block ────────────────────────────────────────────────── */
 export function SkeletonBlock({ className = '', style = {} }) {
-  return <div className={`${pulse} ${className}`} style={style} aria-hidden="true" />
+  return <div className={`${pulse} ${className}`} style={{ ...style, animationDuration: '2s' }} aria-hidden="true" />
 }
 
 /* ── Card-list skeleton (for Achievements / Awards / Certificates lists) ──── */
@@ -17,12 +17,12 @@ export function SkeletonCardList({ count = 4 }) {
     <div className="space-y-4" aria-label="Loading content" role="status">
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="bg-white p-5 rounded-xl border border-gray-100 flex items-center gap-4">
-          <div className={`${pulse} w-10 h-10 rounded-lg shrink-0`} />
+          <div className={`${pulse} w-10 h-10 shrink-0`} style={{ animationDuration: '2s' }} />
           <div className="flex-1 space-y-2">
-            <div className={`${pulse} h-4 w-3/4`} />
-            <div className={`${pulse} h-3 w-1/2`} />
+            <div className={`${pulse} h-4 w-3/4`} style={{ animationDuration: '2s' }} />
+            <div className={`${pulse} h-3 w-1/2`} style={{ animationDuration: '2s' }} />
           </div>
-          <div className={`${pulse} h-6 w-14 rounded`} />
+          <div className={`${pulse} h-6 w-14`} style={{ animationDuration: '2s' }} />
         </div>
       ))}
       <span className="sr-only">Loading…</span>

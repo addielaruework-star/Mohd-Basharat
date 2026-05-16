@@ -6,7 +6,7 @@
  *                    re-fetches only when collectionName changes
  */
 import { useState, useEffect } from 'react'
-import { db } from '../firebase/firebase'
+import { db } from '../lib/firebase'
 import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { useProfileCtx } from '../context/ProfileContext'
 

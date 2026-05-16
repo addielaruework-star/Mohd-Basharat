@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { db } from '../../lib/firebase';
 import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { Mail, Search, Trash2, Check, CheckCircle2, Star, Clock, Inbox, AlertCircle, X } from 'lucide-react';
@@ -86,7 +86,7 @@ export default function MessagesManager() {
   return (
     <div className="space-y-6 pb-12 text-slate-100 h-[calc(100vh-8rem)] flex flex-col">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 shrink-0">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <div className="animate-enter">
           <h1 className="font-sans font-medium text-3xl tracking-tight mb-2 flex items-center gap-3">
             Messages
             {unreadCount > 0 && (
@@ -98,7 +98,7 @@ export default function MessagesManager() {
           <p className="text-slate-400 text-sm max-w-xl">
             Manage inquiries, collaboration requests, and contact messages.
           </p>
-        </motion.div>
+        </div>
 
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <div className="relative group flex-1 sm:w-64">

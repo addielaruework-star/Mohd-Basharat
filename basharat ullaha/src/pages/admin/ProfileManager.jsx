@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Save, Loader2, CheckCircle2, AlertCircle, Upload, X, Image as ImageIcon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { getProfileData, updateProfileData } from '../../services/firebaseService';
 import { uploadImage } from '../../lib/cloudinary';
+import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl';
+import LazyImage from '../../components/LazyImage';
 
 export default function ProfileManager() {
   const [loading, setLoading] = useState(true);
@@ -119,10 +121,8 @@ export default function ProfileManager() {
   }
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="max-w-4xl pb-12"
-    >
+    <div className="max-w-4xl pb-12 animate-enter">
+
       <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
         <div>
           <h2 className="font-sans font-medium text-2xl text-slate-100 tracking-tight">Profile Settings</h2>
@@ -140,14 +140,15 @@ export default function ProfileManager() {
 
       <AnimatePresence>
         {status && (
-          <motion.div initial={{ opacity: 0, height: 0, y: -10 }} animate={{ opacity: 1, height: 'auto', y: 0 }} exit={{ opacity: 0, height: 0 }} className="mb-8">
+          <m.div initial={{ opacity: 0, height: 0, y: -10 }} animate={{ opacity: 1, height: 'auto', y: 0 }} exit={{ opacity: 0, height: 0 }} className="mb-8">
+
             <div className={`p-4 rounded-xl flex items-center gap-3 text-sm font-medium border ${
               status.type === 'success' ? 'bg-green-500/[0.05] border-green-500/20 text-green-400' : 'bg-red-500/[0.05] border-red-500/20 text-red-400'
             }`}>
               {status.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
               {status.message}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -180,7 +181,7 @@ export default function ProfileManager() {
               <div className="relative border border-slate-800 rounded-xl overflow-hidden bg-slate-950/50 h-[200px] flex items-center justify-center">
                 {formData.profileImage ? (
                   <>
-                    <img src={formData.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                    <LazyImage src={optimizeCloudinaryUrl(formData.profileImage)} alt="Profile" className="w-full h-full" />
                     <button type="button" onClick={() => clearImage('profile')} className="absolute top-2 right-2 bg-red-500/20 hover:bg-red-500/40 text-red-100 p-2 rounded-full transition-colors border border-red-500/30">
                       <X size={16} />
                     </button>
@@ -214,7 +215,7 @@ export default function ProfileManager() {
               <div className="relative border border-slate-800 rounded-xl overflow-hidden bg-slate-950/50 h-[200px] flex items-center justify-center">
                 {formData.bioImage ? (
                   <>
-                    <img src={formData.bioImage} alt="Bio" className="w-full h-full object-cover" />
+                    <LazyImage src={optimizeCloudinaryUrl(formData.bioImage)} alt="Bio" className="w-full h-full" />
                     <button type="button" onClick={() => clearImage('bio')} className="absolute top-2 right-2 bg-red-500/20 hover:bg-red-500/40 text-red-100 p-2 rounded-full transition-colors border border-red-500/30">
                       <X size={16} />
                     </button>
@@ -301,6 +302,7 @@ export default function ProfileManager() {
           </div>
         </div>
       </form>
-    </motion.div>
+    </div>
+
   );
 }

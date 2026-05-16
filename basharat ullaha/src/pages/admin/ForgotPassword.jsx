@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 
 export default function ForgotPassword() {
@@ -33,11 +33,8 @@ export default function ForgotPassword() {
       {/* Subtle Blue-Gray Radial Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-slate-800/20 blur-[120px] rounded-full pointer-events-none" />
       
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[440px] relative z-10"
+      <div 
+        className="w-full max-w-[440px] relative z-10 animate-enter"
       >
         <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl p-8 sm:p-12 border border-slate-800 shadow-2xl relative">
           
@@ -51,7 +48,7 @@ export default function ForgotPassword() {
 
           <AnimatePresence mode="wait">
             {status ? (
-              <motion.div 
+              <m.div 
                 key="status"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -72,9 +69,9 @@ export default function ForgotPassword() {
                     Try again
                   </button>
                 )}
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.form 
+              <m.form 
                 key="form"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 onSubmit={handleSubmit} 
@@ -109,7 +106,7 @@ export default function ForgotPassword() {
                     <span>Send Reset Link</span>
                   )}
                 </button>
-              </motion.form>
+              </m.form>
             )}
           </AnimatePresence>
 
@@ -119,7 +116,8 @@ export default function ForgotPassword() {
             </Link>
           </div>
         </div>
-      </motion.div>
+      </div>
+
     </div>
   );
 }
