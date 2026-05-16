@@ -7,7 +7,7 @@
  * - Both render together seamlessly
  * - Admin-uploaded images show a delete badge; local ones show "Default"
  */
-import { useState, useCallback, memo } from 'react'
+import { useState, useCallback, memo, useMemo } from 'react'
 import { m, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
@@ -46,7 +46,7 @@ const Gallery = memo(function Gallery() {
   // then local seed images fill the rest.
   // We deduplicate by URL to prevent showing same image twice
   // if it ever gets seeded into Firestore manually.
-  const mergedItems = (() => {
+  const mergedItems = useMemo(() => {
     const seen = new Set()
     const result = []
     // CMS images first
@@ -64,7 +64,7 @@ const Gallery = memo(function Gallery() {
       }
     }
     return result
-  })()
+  }, [firestoreItems])
 
   const filtered = active === 'All' ? mergedItems : mergedItems.filter(i => i.category === active)
   const visibleItems = filtered.slice(0, visibleCount)

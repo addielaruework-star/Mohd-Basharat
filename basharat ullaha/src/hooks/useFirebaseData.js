@@ -5,7 +5,7 @@
  * useCollection()  → one-time getDocs fetch (no realtime listener overhead)
  *                    re-fetches only when collectionName changes
  */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { db } from '../lib/firebase'
 import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { useProfileCtx } from '../context/ProfileContext'
@@ -42,5 +42,5 @@ export function useCollection(collectionName) {
     return () => { cancelled = true }
   }, [collectionName])
 
-  return { items, loading }
+  return useMemo(() => ({ items, loading }), [items, loading])
 }

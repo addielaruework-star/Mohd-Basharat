@@ -3,7 +3,7 @@
  * Uses sessionStorage caching for faster perceived performance.
  * Switched from real-time onSnapshot to getDoc to minimize background listeners.
  */
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useMemo } from 'react'
 import { db } from '../lib/firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 
@@ -56,8 +56,10 @@ export function SiteAssetsProvider({ children }) {
     fetchAssets()
   }, [])
 
+  const value = useMemo(() => ({ assets, loading }), [assets, loading])
+
   return (
-    <SiteAssetsContext.Provider value={{ assets, loading }}>
+    <SiteAssetsContext.Provider value={value}>
       {children}
     </SiteAssetsContext.Provider>
   )

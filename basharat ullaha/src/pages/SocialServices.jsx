@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import { Heart, Scale, Users, Megaphone, Box, Shield, Link as LinkIcon } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
 import PageHero from '../components/PageHero'
@@ -52,6 +52,10 @@ const SocialServices = memo(function SocialServices() {
 
   const name = profile?.name || 'Mohd Basharath Ullah'
 
+  const displayServices = useMemo(() => {
+    return fetchedServices && fetchedServices.length > 0 ? fetchedServices : services
+  }, [fetchedServices])
+
   return (
     <PageContainer>
       <PageHero
@@ -94,17 +98,16 @@ const SocialServices = memo(function SocialServices() {
         <div className="container-custom">
           <SectionTitle label="Initiatives" title="Areas of Service" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {(fetchedServices && fetchedServices.length > 0 ? fetchedServices : services).map(s => {
+            {displayServices.map(s => {
               const Icon = s.icon ? (typeof s.icon === 'string' ? (iconMap[s.icon] || Heart) : s.icon) : Heart;
               return (
                 <div
                   key={s.title}
-                  className="card"
+                  className="card card-hover-effect"
                   style={{
                     padding: '2rem 1.75rem',
                     borderLeft: '3px solid var(--gold)',
                     display: 'flex', alignItems: 'center', gap: '1rem',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                   }}
                 >
                   <div style={{

@@ -1,9 +1,10 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import LazyImage from '../../components/LazyImage'
 import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl'
 
-export default function GalleryBannerSection({ profile, galleryBannerImg }) {
+const GalleryBannerSection = memo(function GalleryBannerSection({ profile, galleryBannerImg }) {
   return (
     <div className="relative overflow-hidden section-banner-height">
       <LazyImage
@@ -25,4 +26,6 @@ export default function GalleryBannerSection({ profile, galleryBannerImg }) {
       </div>
     </div>
   )
-}
+})
+
+export default GalleryBannerSection

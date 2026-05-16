@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import LazyImage from '../../components/LazyImage'
 import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl'
 import { images } from '../../data/imageImports'
 
-export default function RolesSection({ assets }) {
+const RolesSection = memo(function RolesSection({ assets }) {
   return (
     <div style={{ background: 'var(--cream)', padding: 'var(--sp-xl) 0' }}>
       <div className="container-custom">
@@ -42,4 +43,6 @@ export default function RolesSection({ assets }) {
       </div>
     </div>
   )
-}
+})
+
+export default RolesSection

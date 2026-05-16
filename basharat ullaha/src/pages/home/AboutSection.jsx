@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import SectionWrapper from '../../components/SectionWrapper'
@@ -5,7 +6,7 @@ import LazyImage from '../../components/LazyImage'
 import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl'
 import { images } from '../../data/imageImports'
 
-export default function AboutSection({ profile, assets }) {
+const AboutSection = memo(function AboutSection({ profile, assets }) {
   return (
     <SectionWrapper>
       <div className="container-custom">
@@ -45,4 +46,6 @@ export default function AboutSection({ profile, assets }) {
       </div>
     </SectionWrapper>
   )
-}
+})
+
+export default AboutSection

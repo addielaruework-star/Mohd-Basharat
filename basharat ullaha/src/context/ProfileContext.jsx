@@ -3,7 +3,7 @@
  * Uses sessionStorage caching to ensure instant interactive state on reload.
  * Switched from real-time onSnapshot to getDoc to reduce background overhead.
  */
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useMemo } from 'react'
 import { db } from '../lib/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 
@@ -43,8 +43,10 @@ export function ProfileProvider({ children }) {
     fetchProfile()
   }, [])
 
+  const value = useMemo(() => ({ profile, loading }), [profile, loading])
+
   return (
-    <ProfileContext.Provider value={{ profile, loading }}>
+    <ProfileContext.Provider value={value}>
       {children}
     </ProfileContext.Provider>
   )

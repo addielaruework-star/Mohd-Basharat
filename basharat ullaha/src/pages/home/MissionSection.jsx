@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 
-export default function MissionSection() {
+const MissionSection = memo(function MissionSection() {
   return (
     <div
       className="relative overflow-hidden"
@@ -26,4 +27,6 @@ export default function MissionSection() {
       </div>
     </div>
   )
-}
+})
+
+export default MissionSection

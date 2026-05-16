@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import { Target, Eye } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
 import PageHero from '../components/PageHero'
@@ -39,6 +39,28 @@ const About = memo(function About() {
   const bioImg       = assets.biographyImage || images.gallery.communityService[0]
   const aboutBannerImg = assets.aboutBanner  || images.gallery.communityService[1]
 
+  const roles = useMemo(() => {
+    return profile?.roles || [
+      { title: 'Ex Vice President', organization: 'International Human Rights & Social Justice Organization' },
+      { title: 'Director', organization: 'Anti-Corruption Foundation of India' }
+    ]
+  }, [profile?.roles])
+
+  const missionVision = useMemo(() => [
+    {
+      icon: Target,
+      label: 'Mission',
+      heading: 'Our Purpose',
+      body: profile?.mission || 'To serve humanity by promoting justice, equality, and support for underprivileged communities.',
+    },
+    {
+      icon: Eye,
+      label: 'Vision',
+      heading: 'Our Future',
+      body: profile?.vision || 'To build a society where every individual has equal rights, dignity, and opportunities.',
+    },
+  ], [profile?.mission, profile?.vision])
+
   return (
     <PageContainer>
       <PageHero
@@ -74,10 +96,7 @@ const About = memo(function About() {
               <div style={{ marginTop: '2.5rem' }}>
                 <p className="eyebrow mb-3">Key Roles</p>
                 <ul className="list-none space-y-4">
-                  {(profile?.roles || [
-                    { title: 'Ex Vice President', organization: 'International Human Rights & Social Justice Organization' },
-                    { title: 'Director', organization: 'Anti-Corruption Foundation of India' }
-                  ]).map((role, i) => (
+                  {roles.map((role, i) => (
                     <li key={i} style={{ borderLeft: '1px solid var(--gold)', paddingLeft: '1rem' }}>
                       <h3 className="font-display font-semibold" style={{ fontSize: '1rem', color: 'var(--navy)' }}>{role.title}</h3>
                       <p style={{ fontSize: '0.85rem', color: 'var(--gray-mid)' }}>{role.organization}</p>
@@ -95,26 +114,12 @@ const About = memo(function About() {
         <div className="container-custom">
           <SectionTitle label="Purpose" title="Mission & Vision" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              {
-                icon: Target,
-                label: 'Mission',
-                heading: 'Our Purpose',
-                body: profile?.mission || 'To serve humanity by promoting justice, equality, and support for underprivileged communities.',
-              },
-              {
-                icon: Eye,
-                label: 'Vision',
-                heading: 'Our Future',
-                body: profile?.vision || 'To build a society where every individual has equal rights, dignity, and opportunities.',
-              },
-            ].map(item => (
+            {missionVision.map(item => (
               <div
                 key={item.label}
-                className="card"
+                className="card card-hover-effect"
                 style={{
                   padding: '2.5rem',
-                  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
