@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast'
 import ProtectedRoute from './routes/ProtectedRoute'
 import MainLayout from './layouts/MainLayout'
 import GoogleAnalytics from './components/GoogleAnalytics'
+import MicrosoftClarity from './components/MicrosoftClarity'
 
 // ─── Public pages — eagerly loaded (fast first paint) ────────────────────────
 import Home from './pages/Home'
@@ -71,6 +72,7 @@ export default function App() {
           <SiteAssetsProvider>
           <BrowserRouter>
             <GoogleAnalytics />
+            <MicrosoftClarity />
             <Toaster 
               position="top-center" 
               toastOptions={{
