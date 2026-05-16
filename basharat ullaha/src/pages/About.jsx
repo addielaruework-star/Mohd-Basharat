@@ -21,19 +21,6 @@ const About = memo(function About() {
     canonical: '/about',
   })
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--navy)' }}>
-        <div style={{
-          width: 32, height: 32, borderRadius: '50%',
-          border: '2px solid rgba(255,255,255,0.15)',
-          borderTopColor: 'var(--gold)',
-          animation: 'spin 0.7s linear infinite',
-        }} />
-      </div>
-    )
-  }
-
   const name = profile?.name || 'Mohd Basharath Ullah'
   const profileImg   = assets.profileImage   || images.profile.main
   const bioImg       = assets.biographyImage || images.gallery.communityService[0]
@@ -60,6 +47,19 @@ const About = memo(function About() {
       body: profile?.vision || 'To build a society where every individual has equal rights, dignity, and opportunities.',
     },
   ], [profile?.mission, profile?.vision])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--navy)' }}>
+        <div style={{
+          width: 32, height: 32, borderRadius: '50%',
+          border: '2px solid rgba(255,255,255,0.15)',
+          borderTopColor: 'var(--gold)',
+          animation: 'spin 0.7s linear infinite',
+        }} />
+      </div>
+    )
+  }
 
   return (
     <PageContainer>

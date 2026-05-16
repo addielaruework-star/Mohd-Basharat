@@ -31,6 +31,10 @@ const SocialServices = memo(function SocialServices() {
   const loading = profileLoading || servicesLoading
   const bannerImg = assets.servicesBanner || images.gallery.communityService[1]
 
+  const displayServices = useMemo(() => {
+    return fetchedServices && fetchedServices.length > 0 ? fetchedServices : services
+  }, [fetchedServices])
+
   useSEO({
     title: 'Social Services',
     description: 'Grassroots social service initiatives by Mohd Basharath Ullah — human rights advocacy, community development, awareness campaigns and NGO collaborations.',
@@ -51,10 +55,6 @@ const SocialServices = memo(function SocialServices() {
   }
 
   const name = profile?.name || 'Mohd Basharath Ullah'
-
-  const displayServices = useMemo(() => {
-    return fetchedServices && fetchedServices.length > 0 ? fetchedServices : services
-  }, [fetchedServices])
 
   return (
     <PageContainer>
