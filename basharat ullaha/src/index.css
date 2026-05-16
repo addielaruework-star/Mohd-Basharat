@@ -1,0 +1,325 @@
+@import "tailwindcss";
+
+
+/* ─── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --navy:        #0b1d35;
+  --navy-mid:    #122040;
+  --navy-light:  #1e3a5f;
+  --gold:        #c9a84c;
+  --gold-light:  #dfc26b;
+  --gold-dark:   #9e7b30;
+  --gold-muted:  rgba(201,168,76,0.15);
+  --white:       #ffffff;
+  --off-white:   #faf9f7;
+  --cream:       #f4f1eb;
+  --gray-mid:    #334155;
+  --gray-dark:   #0f172a;
+  --text-body:   #020617;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-accent:  'Cinzel', serif;
+
+  /* Spacing scale */
+  --sp-xs:  0.5rem;
+  --sp-sm:  1rem;
+  --sp-md:  2rem;
+  --sp-lg:  4rem;
+  --sp-xl:  6rem;
+  --sp-2xl: 9rem;
+
+  /* Transition */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  /* ─── Reset ─────────────────────────────────────────────────── */
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--off-white);
+    color: var(--text-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { display: block; max-width: 100%; }
+
+  /* ─── Scrollbar ─────────────────────────────────────────────── */
+  ::-webkit-scrollbar         { width: 4px; }
+  ::-webkit-scrollbar-track   { background: var(--off-white); }
+  ::-webkit-scrollbar-thumb   { background: var(--gold); border-radius: 2px; }
+  ::selection                  { background: var(--gold); color: var(--navy); }
+}
+
+@layer components {
+  /* ─── Container ─────────────────────────────────────────────── */
+  .container-custom {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+/* ─── Section ───────────────────────────────────────────────── */
+.section-padding  { padding: var(--sp-xl) 0; }
+.section-padding-sm { padding: var(--sp-lg) 0; }
+
+/* ─── Typography ─────────────────────────────────────────────  */
+.font-display { font-family: var(--font-display); }
+.font-accent  { font-family: var(--font-accent); }
+
+.eyebrow {
+  font-family: var(--font-accent);
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.15;
+}
+
+.section-title--light { color: #fff; }
+
+.section-subtitle {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-weight: 400;
+  color: var(--gray-mid);
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Gold Rule ──────────────────────────────────────────────── */
+.gold-rule {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  will-change: transform;
+}
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(201,168,76,0.22);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.4);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  will-change: transform;
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.15);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+/* Legacy alias */
+
+
+/* ─── Cards ──────────────────────────────────────────────────── */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(11,29,53,0.05);
+  border: 1px solid rgba(201,168,76,0.1);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card:hover {
+  box-shadow: 0 6px 20px rgba(11,29,53,0.08);
+  border-color: rgba(201,168,76,0.3);
+}
+
+/* Legacy alias */
+
+
+/* ─── Premium Image System ─────────────────────────────────── */
+.media-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--navy-mid);
+  isolation: isolate;
+}
+
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.media-container:hover .img-cover {
+  transform: scale(1.03);
+}
+
+.img-placeholder {
+  background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-light) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-family: var(--font-accent);
+}
+
+/* Aspect Ratios */
+.aspect-cinematic { aspect-ratio: 21 / 9; }
+.aspect-banner { aspect-ratio: 16 / 5; }
+.aspect-landscape { aspect-ratio: 16 / 9; }
+.aspect-portrait { aspect-ratio: 3 / 4; }
+.aspect-square { aspect-ratio: 1 / 1; }
+
+/* Responsive Height Clamps */
+.hero-banner-height {
+  height: clamp(350px, 55vh, 550px);
+}
+
+.section-banner-height {
+  height: clamp(300px, 50vh, 450px);
+}
+
+/* Consistent Darkness for Overlays */
+.overlay-premium {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11,29,53,0.92) 0%, rgba(11,29,53,0.3) 70%, transparent 100%);
+  pointer-events: none;
+}
+
+
+/* ─── Divider overlay ────────────────────────────────────────── */
+.overlay-dark {
+  background: linear-gradient(to top,
+    rgba(11,29,53,0.88) 0%,
+    rgba(11,29,53,0.45) 55%,
+    transparent 100%);
+}
+
+.overlay-navy {
+  background: rgba(11,29,53,0.72);
+}
+
+/* ─── Page transition ────────────────────────────────────────── */
+.page-transition { opacity: 1; }
+
+/* ─── Section layout helpers ─────────────────────────────────── */
+.split-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .split-section { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+  /* ─── Masonry ────────────────────────────────────────────────── */
+  .masonry-grid {
+    column-count: 4;
+    column-gap: 1.5rem;
+  }
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 1100px) { .masonry-grid { column-count: 3; } }
+  @media (max-width: 720px)  { .masonry-grid { column-count: 2; } }
+  @media (max-width: 480px)  { .masonry-grid { column-count: 1; } }
+
+  /* ─── Utility ────────────────────────────────────────────────── */
+  .bg-navy  { background: var(--navy); color: #fff; }
+  .bg-cream { background: var(--cream); }
+}
+
+/* ─── Global keyframes ───────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Gallery card — CSS-only hover (no React state per card) ── */
+.gallery-card {
+  isolation: isolate;
+}
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11,29,53,0.9) 0%, rgba(11,29,53,0.5) 40%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem;
+  pointer-events: none;
+}
+.gallery-card:hover .gallery-overlay {
+  opacity: 1;
+}
+.gallery-card img {
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+.gallery-card:hover img {
+  transform: scale(1.04);
+}
+
+/* ─── Performance hints ──────────────────────────────────────── */
+.masonry-item {
+  contain: layout style;
+}

@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Block admin area from crawlers
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/dashboard
+Disallow: /admin/gallery
+Disallow: /admin/profile
+Disallow: /admin/achievements
+Disallow: /admin/awards
+Disallow: /admin/certificates
+Disallow: /admin/connections
+Disallow: /admin/settings
+Disallow: /admin/site-assets
+Disallow: /admin/forgot-password
+
+# Sitemap
+Sitemap: https://mohdbasharathullah.com/sitemap.xml
