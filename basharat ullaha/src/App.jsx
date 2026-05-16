@@ -7,6 +7,7 @@ import { SiteAssetsProvider } from './context/SiteAssetsContext'
 import { Toaster } from 'react-hot-toast'
 import ProtectedRoute from './routes/ProtectedRoute'
 import MainLayout from './layouts/MainLayout'
+import GoogleAnalytics from './components/GoogleAnalytics'
 
 // ─── Public pages — eagerly loaded (fast first paint) ────────────────────────
 import Home from './pages/Home'
@@ -69,6 +70,7 @@ export default function App() {
         <ProfileProvider>
           <SiteAssetsProvider>
           <BrowserRouter>
+            <GoogleAnalytics />
             <Toaster 
               position="top-center" 
               toastOptions={{

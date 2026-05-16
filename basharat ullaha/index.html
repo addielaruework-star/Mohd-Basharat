@@ -77,6 +77,16 @@
       "description": "Official digital portfolio of Mohd Basharath Ullah"
     }
     </script>
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-61BGBH367H"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      // Config GA4 — Disable automatic page views as we track manually in React
+      gtag('config', 'G-61BGBH367H', { send_page_view: false });
+    </script>
   </head>
   <body>
     <div id="root"></div>
