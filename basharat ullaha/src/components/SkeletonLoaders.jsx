@@ -11,6 +11,16 @@ export function SkeletonBlock({ className = '', style = {} }) {
   return <div className={`${pulse} ${className}`} style={{ ...style, animationDuration: '2s' }} aria-hidden="true" />
 }
 
+export function SkeletonSimple({ height = '300px', className = '' }) {
+  return (
+    <div 
+      className={`bg-slate-50 border border-slate-100 rounded-2xl ${className}`} 
+      style={{ height, width: '100%' }}
+      aria-hidden="true"
+    />
+  )
+}
+
 /* ── Card-list skeleton (for Achievements / Awards / Certificates lists) ──── */
 export function SkeletonCardList({ count = 4 }) {
   return (

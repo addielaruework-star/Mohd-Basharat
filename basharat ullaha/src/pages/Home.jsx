@@ -1,15 +1,21 @@
-import { memo } from 'react'
+import { memo, lazy } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
-import SectionWrapper from '../components/SectionWrapper'
 import { useProfile } from '../hooks/useFirebaseData'
 import { useSiteAssets } from '../context/SiteAssetsContext'
 import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
 import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
 import LazyImage from '../components/LazyImage'
+import DeferredSection from '../components/DeferredSection'
+import { SkeletonSimple } from '../components/SkeletonLoaders'
 
+// Lazy loaded sections
+const AboutSection = lazy(() => import('./home/AboutSection'))
+const RolesSection = lazy(() => import('./home/RolesSection'))
+const MissionSection = lazy(() => import('./home/MissionSection'))
+const GalleryBannerSection = lazy(() => import('./home/GalleryBannerSection'))
 
 const Home = memo(function Home() {
   const { profile, loading } = useProfile()
@@ -46,7 +52,7 @@ const Home = memo(function Home() {
   return (
     <PageContainer>
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
+      {/* ── HERO (Critical Path) ─────────────────────────── */}
       <section
         className="relative min-h-screen flex items-center overflow-hidden"
         style={{ background: 'var(--navy)' }}
@@ -161,128 +167,23 @@ const Home = memo(function Home() {
         </div>
       </section>
 
-      {/* ── ABOUT SPLIT ──────────────────────────────────────── */}
-      <SectionWrapper>
-        <div className="container-custom">
-          <div className="split-section">
-            <div>
-              <div className="media-container aspect-[3/4]" style={{ border: '1px solid rgba(201,168,76,0.15)' }}>
-                <LazyImage
-                  src={optimizeCloudinaryUrl(assets.biographyImage || images.gallery.publicEvents[0])}
-                  alt="Event Photo"
-                  className="w-full h-full"
-                  style={{ objectPosition: 'center 35%' }}
-                />
-              </div>
-            </div>
+      {/* ── DEFERRED SECTIONS (Below Fold) ────────────────── */}
 
-            <div>
-              <p className="eyebrow mb-4">About</p>
-              <h2 className="section-title mb-4" style={{ maxWidth: 400 }}>
-                A Life Devoted to People
-              </h2>
-              <div className="gold-rule mb-6" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.8 }}>
-                  {profile?.name || 'Mohd Basharath Ullah'} is a committed social activist and humanitarian leader dedicated to promoting human rights and social justice.
-                </p>
-                <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.8 }}>
-                  With experience across national and international platforms, he has consistently worked toward the welfare of underprivileged communities.
-                </p>
-              </div>
-              <div style={{ marginTop: '2rem' }}>
-                <Link to="/about" className="btn-primary">
-                  Full Biography <ArrowRight size={14} />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </SectionWrapper>
+      <DeferredSection minHeight="500px" fallback={<SkeletonSimple height="500px" className="my-10" />}>
+        <AboutSection profile={profile} assets={assets} />
+      </DeferredSection>
 
-      {/* ── ROLES / WORK ─────────────────────────────────────── */}
-      <div style={{ background: 'var(--cream)', padding: 'var(--sp-xl) 0' }}>
-        <div className="container-custom">
-          <div className="split-section" style={{ alignItems: 'flex-start' }}>
-            <div>
-              <p className="eyebrow mb-3">Leadership &amp; Service</p>
-              <h2 className="section-title mb-6">Positions Held</h2>
-              <div className="gold-rule mb-8" />
+      <DeferredSection minHeight="400px" fallback={<SkeletonSimple height="400px" className="my-10" />}>
+        <RolesSection assets={assets} />
+      </DeferredSection>
 
-              <ul className="list-none space-y-6">
-                <li style={{ borderLeft: '2px solid var(--gold)', paddingLeft: '1.25rem' }}>
-                  <h3 className="font-display font-bold" style={{ fontSize: '1.1rem', color: 'var(--navy)' }}>Ex Vice President</h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-mid)' }}>International Human Rights &amp; Social Justice Organization</p>
-                </li>
-                <li style={{ borderLeft: '2px solid var(--gold)', paddingLeft: '1.25rem' }}>
-                  <h3 className="font-display font-bold" style={{ fontSize: '1.1rem', color: 'var(--navy)' }}>Director</h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-mid)' }}>Anti-Corruption Foundation of India</p>
-                </li>
-              </ul>
+      <DeferredSection minHeight="300px" fallback={<SkeletonSimple height="300px" className="my-10" />}>
+        <MissionSection />
+      </DeferredSection>
 
-              <p style={{ marginTop: '2rem', fontSize: '0.9rem', color: 'var(--gray-mid)', lineHeight: 1.7, maxWidth: 400 }}>
-                Worked with multiple national and international organizations on social impact initiatives.
-              </p>
-            </div>
-
-            <div>
-              <div className="media-container aspect-[4/3]" style={{ border: '1px solid rgba(201,168,76,0.15)' }}>
-                <LazyImage
-                  src={optimizeCloudinaryUrl(assets.aboutBanner || images.gallery.meetings[0])}
-                  alt="Leadership Photo"
-                  className="w-full h-full"
-                  style={{ objectPosition: 'center 35%' }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── MISSION QUOTE ─────────────────────────────────────── */}
-      <div
-        className="relative overflow-hidden"
-        style={{ background: 'var(--navy)', padding: 'var(--sp-xl) 0' }}
-      >
-        <div
-          className="absolute inset-0 opacity-4"
-          style={{ backgroundImage: 'repeating-linear-gradient(-60deg, rgba(201,168,76,0.1) 0px, rgba(201,168,76,0.1) 1px, transparent 1px, transparent 48px)' }}
-        />
-        <div className="container-custom relative z-10 text-center" style={{ maxWidth: 720 }}>
-          <p className="eyebrow mb-5">Mission</p>
-          <blockquote
-            className="font-display text-white"
-            style={{ fontSize: 'clamp(1.4rem, 3.5vw, 2.2rem)', lineHeight: 1.45, fontWeight: 600, fontStyle: 'italic' }}
-          >
-            "To serve humanity by promoting justice, equality, and support for underprivileged communities."
-          </blockquote>
-          <div className="gold-rule mx-auto mt-7 mb-8" />
-          <Link to="/social-services" className="btn-primary">
-            View Social Work <ArrowRight size={14} />
-          </Link>
-        </div>
-      </div>
-
-      {/* ── FULL-WIDTH GALLERY BANNER ──────────────────────────── */}
-      <div className="relative overflow-hidden section-banner-height">
-        <LazyImage
-          src={optimizeCloudinaryUrl(galleryBannerImg)}
-          alt="Visual Chronicle"
-          className="absolute inset-0 w-full h-full"
-          style={{ objectPosition: 'center 30%' }}
-        />
-        <div className="overlay-premium flex items-end">
-          <div className="container-custom pb-10">
-            <p className="eyebrow mb-2">Gallery</p>
-            <h3 className="font-display font-bold text-white mb-4" style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)' }}>
-              {profile?.galleryBannerTitle || 'Visual Chronicle of Service'}
-            </h3>
-            <Link to="/gallery" className="btn-ghost">
-              View Full Gallery <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </div>
+      <DeferredSection minHeight="400px" fallback={<SkeletonSimple height="400px" />}>
+        <GalleryBannerSection profile={profile} galleryBannerImg={galleryBannerImg} />
+      </DeferredSection>
 
     </PageContainer>
   )

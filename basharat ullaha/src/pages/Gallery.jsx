@@ -33,6 +33,7 @@ const Gallery = memo(function Gallery() {
   const [active, setActive] = useState('All')
   const [modal, setModal] = useState(null)
   const [idx, setIdx] = useState(null)
+  const [visibleCount, setVisibleCount] = useState(12) // Initial batch size
 
   useSEO({
     title: 'Photo Gallery',
@@ -66,6 +67,7 @@ const Gallery = memo(function Gallery() {
   })()
 
   const filtered = active === 'All' ? mergedItems : mergedItems.filter(i => i.category === active)
+  const visibleItems = filtered.slice(0, visibleCount)
 
   const open = useCallback((item, i) => { setModal(item); setIdx(i) }, [])
   const close = useCallback(() => { setModal(null); setIdx(null) }, [])
@@ -122,9 +124,10 @@ const Gallery = memo(function Gallery() {
           {loading ? (
             <SkeletonGallery count={8} />
           ) : (
-            <div key={active} className="masonry-grid">
+            <>
+              <div key={active} className="masonry-grid">
 
-                {filtered.map((item, i) => (
+                {visibleItems.map((item, i) => (
                   <div
                     key={item.id}
                     onClick={() => open(item, i)}
@@ -177,6 +180,25 @@ const Gallery = memo(function Gallery() {
                   </div>
                 ))}
               </div>
+
+              {/* Sentinel for infinite scroll */}
+              {visibleCount < filtered.length && (
+                <div 
+                  ref={(el) => {
+                    if (!el) return
+                    const observer = new IntersectionObserver(([entry]) => {
+                      if (entry.isIntersecting) {
+                        setVisibleCount(prev => prev + 12)
+                      }
+                    }, { rootMargin: '600px' })
+                    observer.observe(el)
+                    // Note: In this simple one-off observer, we rely on the sentinel being removed 
+                    // when visibleCount increases or active category changes.
+                  }}
+                  style={{ height: 20, margin: '2rem 0' }}
+                />
+              )}
+            </>
           )}
         </div>
       </section>
