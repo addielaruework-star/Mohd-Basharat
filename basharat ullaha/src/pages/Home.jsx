@@ -113,6 +113,7 @@ const Home = memo(function Home() {
                 fontWeight: 400,
                 marginBottom: '2.5rem',
                 maxWidth: 480,
+                whiteSpace: 'pre-line',
               }}
             >
               {profile?.heroSubtitle || 'Committed social activist and humanitarian leader dedicated to promoting human rights and social justice.'}

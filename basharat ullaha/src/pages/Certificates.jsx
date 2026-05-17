@@ -96,7 +96,7 @@ const Certificates = memo(function Certificates() {
                       <h4 className="font-display font-semibold text-[1rem] text-[var(--navy)] truncate">
                         {item.title}
                       </h4>
-                      <p className="text-[0.8rem] text-[var(--gray-mid)] truncate">
+                      <p className="text-[0.8rem] text-[var(--gray-mid)]" style={{ whiteSpace: 'pre-line' }}>
                         {item.description}
                       </p>
                     </div>

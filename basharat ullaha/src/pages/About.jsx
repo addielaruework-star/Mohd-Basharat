@@ -26,12 +26,12 @@ const About = memo(function About() {
   const bioImg       = assets.biographyImage || images.gallery.communityService[0]
   const aboutBannerImg = assets.aboutBanner  || images.gallery.communityService[1]
 
-  const roles = useMemo(() => {
-    return profile?.roles || [
-      { title: 'Ex Vice President', organization: 'International Human Rights & Social Justice Organization' },
-      { title: 'Director', organization: 'Anti-Corruption Foundation of India' }
+  const leadershipPositions = useMemo(() => {
+    return profile?.leadershipPositions || [
+      { organization: 'Anti Corruption Foundation of India', title: 'State Chief Director Telangana' },
+      { organization: 'International Human Rights & Social Justice Organization', title: 'Ex Vice President' }
     ]
-  }, [profile?.roles])
+  }, [profile?.leadershipPositions])
 
   const missionVision = useMemo(() => [
     {
@@ -88,18 +88,18 @@ const About = memo(function About() {
               <h2 className="section-title mb-4" style={{ maxWidth: 380 }}>{name}</h2>
               <div className="gold-rule mb-7" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85 }}>
+                <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85, whiteSpace: 'pre-line' }}>
                   {profile?.aboutText || `${name} is a committed social activist and humanitarian leader dedicated to promoting human rights and social justice.`}
                 </p>
               </div>
 
               <div style={{ marginTop: '2.5rem' }}>
-                <p className="eyebrow mb-3">Key Roles</p>
+                <p className="eyebrow mb-3">Leadership Positions</p>
                 <ul className="list-none space-y-4">
-                  {roles.map((role, i) => (
+                  {leadershipPositions.map((pos, i) => (
                     <li key={i} style={{ borderLeft: '1px solid var(--gold)', paddingLeft: '1rem' }}>
-                      <h3 className="font-display font-semibold" style={{ fontSize: '1rem', color: 'var(--navy)' }}>{role.title}</h3>
-                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-mid)' }}>{role.organization}</p>
+                      <h3 className="font-display font-semibold" style={{ fontSize: '1rem', color: 'var(--navy)' }}>{pos.organization}</h3>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--gray-mid)' }}>{pos.title}</p>
                     </li>
                   ))}
                 </ul>
@@ -135,7 +135,7 @@ const About = memo(function About() {
                     <h3 className="font-display font-bold" style={{ fontSize: '1.1rem', color: 'var(--navy)' }}>{item.heading}</h3>
                   </div>
                 </div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--gray-mid)', lineHeight: 1.8 }}>{item.body}</p>
+                <p style={{ fontSize: '0.9rem', color: 'var(--gray-mid)', lineHeight: 1.8, whiteSpace: 'pre-line' }}>{item.body}</p>
               </div>
             ))}
           </div>

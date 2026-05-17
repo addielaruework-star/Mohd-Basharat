@@ -82,7 +82,7 @@ const Achievements = memo(function Achievements() {
                           {item.year}
                         </span>
                         <h4 className="font-display font-bold text-xl text-[var(--navy)] mb-3">{item.title}</h4>
-                        <p className="text-[0.95rem] text-[var(--gray-mid)] leading-relaxed">{item.description}</p>
+                        <p className="text-[0.95rem] text-[var(--gray-mid)] leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{item.description}</p>
                       </div>
                     </div>
                   </div>

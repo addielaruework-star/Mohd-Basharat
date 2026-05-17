@@ -68,7 +68,7 @@ const Awards = memo(function Awards() {
                 <h3 className="font-display font-bold text-white" style={{ fontSize: '1.2rem', lineHeight: 1.3, marginBottom: '0.75rem' }}>
                   {a.title}
                 </h3>
-                <p style={{ fontSize: '0.92rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75 }}>
+                <p style={{ fontSize: '0.92rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, whiteSpace: 'pre-line' }}>
                   {a.description}
                 </p>
                 <div style={{
@@ -111,7 +111,7 @@ const Awards = memo(function Awards() {
                       <h4 className="font-display font-bold text-[1.05rem] text-[var(--navy)] mb-2 leading-tight">
                         {item.title}
                       </h4>
-                      <p className="text-[0.85rem] text-[var(--gray-mid)] leading-relaxed">
+                      <p className="text-[0.85rem] text-[var(--gray-mid)] leading-relaxed" style={{ whiteSpace: 'pre-line' }}>
                         {item.description}
                       </p>
                     </div>

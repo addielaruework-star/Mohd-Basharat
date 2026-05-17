@@ -2,8 +2,16 @@ import { memo } from 'react'
 import LazyImage from '../../components/LazyImage'
 import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl'
 import { images } from '../../data/imageImports'
+import { useProfile } from '../../hooks/useFirebaseData'
 
 const RolesSection = memo(function RolesSection({ assets }) {
+  const { profile } = useProfile()
+
+  const leadershipPositions = profile?.leadershipPositions || [
+    { organization: 'Anti Corruption Foundation of India', title: 'State Chief Director Telangana' },
+    { organization: 'International Human Rights & Social Justice Organization', title: 'Ex Vice President' }
+  ]
+
   return (
     <div style={{ background: 'var(--cream)', padding: 'var(--sp-xl) 0' }}>
       <div className="container-custom">
@@ -14,19 +22,13 @@ const RolesSection = memo(function RolesSection({ assets }) {
             <div className="gold-rule mb-8" />
 
             <ul className="list-none space-y-6">
-              <li style={{ borderLeft: '2px solid var(--gold)', paddingLeft: '1.25rem' }}>
-                <h3 className="font-display font-bold" style={{ fontSize: '1.1rem', color: 'var(--navy)' }}>Ex Vice President</h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--gray-mid)' }}>International Human Rights &amp; Social Justice Organization</p>
-              </li>
-              <li style={{ borderLeft: '2px solid var(--gold)', paddingLeft: '1.25rem' }}>
-                <h3 className="font-display font-bold" style={{ fontSize: '1.1rem', color: 'var(--navy)' }}>Director</h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--gray-mid)' }}>Anti-Corruption Foundation of India</p>
-              </li>
+              {leadershipPositions.map((pos, i) => (
+                <li key={i} style={{ borderLeft: '2px solid var(--gold)', paddingLeft: '1.25rem' }}>
+                  <h3 className="font-display font-bold" style={{ fontSize: '1.1rem', color: 'var(--navy)' }}>{pos.organization}</h3>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--gray-mid)' }}>{pos.title}</p>
+                </li>
+              ))}
             </ul>
-
-            <p style={{ marginTop: '2rem', fontSize: '0.9rem', color: 'var(--gray-mid)', lineHeight: 1.7, maxWidth: 400 }}>
-              Worked with multiple national and international organizations on social impact initiatives.
-            </p>
           </div>
 
           <div>

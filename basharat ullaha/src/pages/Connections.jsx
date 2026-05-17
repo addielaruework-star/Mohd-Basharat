@@ -87,7 +87,7 @@ const Connections = memo(function Connections() {
                       <h4 className="font-display font-bold text-[1.05rem] text-[var(--navy)] mb-2 leading-tight">
                         {item.title}
                       </h4>
-                      <p className="text-[0.85rem] text-[var(--gray-mid)] leading-relaxed">
+                      <p className="text-[0.85rem] text-[var(--gray-mid)] leading-relaxed" style={{ whiteSpace: 'pre-line' }}>
                         {item.description}
                       </p>
                     </div>

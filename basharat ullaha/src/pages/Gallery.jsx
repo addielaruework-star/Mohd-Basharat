@@ -240,7 +240,7 @@ const Gallery = memo(function Gallery() {
 
               <div style={{ padding: '1.5rem 2rem 2rem' }}>
                 <p className="eyebrow mb-2" style={{ color: 'var(--gold-light)' }}>{modal.category}</p>
-                {modal.caption && <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.95rem' }}>{modal.caption}</p>}
+                {modal.caption && <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.95rem', whiteSpace: 'pre-line' }}>{modal.caption}</p>}
                 {modal.isLocal && (
                   <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.72rem', marginTop: '0.5rem' }}>Local default image</p>
                 )}
