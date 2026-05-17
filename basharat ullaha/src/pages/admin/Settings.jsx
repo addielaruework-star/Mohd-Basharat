@@ -18,11 +18,15 @@ export default function Settings() {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
-    if (newPassword !== confirmPassword) {
+    const trimmedCurrent = currentPassword.trim();
+    const trimmedNew = newPassword.trim();
+    const trimmedConfirm = confirmPassword.trim();
+
+    if (trimmedNew !== trimmedConfirm) {
       setStatus({ type: 'error', message: 'New passwords do not match.' });
       return;
     }
-    if (newPassword.length < 8) {
+    if (trimmedNew.length < 8) {
       setStatus({ type: 'error', message: 'Password must be at least 8 characters long.' });
       return;
     }
@@ -36,12 +40,22 @@ export default function Settings() {
         throw new Error("No authenticated session found. Please log in again.");
       }
 
-      // Reauthenticate user before changing password
-      const credential = EmailAuthProvider.credential(user.email, currentPassword);
-      await reauthenticateWithCredential(user, credential);
+      // 1. Session Refresh
+      await user.reload();
+      const freshUser = auth.currentUser;
 
-      // Update password
-      await updatePassword(user, newPassword);
+      // Log current state for verification audit
+      console.log("[Auth Audit] Currently logged-in Email:", freshUser.email);
+      console.log("[Auth Audit] Provider Metadata Details:", freshUser.providerData.map(p => p.providerId));
+
+      // 2. Build credential with trimmed inputs
+      const credential = EmailAuthProvider.credential(freshUser.email, trimmedCurrent);
+
+      // 3. Reauthenticate user before changing password
+      await reauthenticateWithCredential(freshUser, credential);
+
+      // 4. Update password
+      await updatePassword(freshUser, trimmedNew);
 
       setStatus({ type: 'success', message: 'Password has been successfully updated.' });
       setCurrentPassword('');
@@ -52,7 +66,7 @@ export default function Settings() {
       setShowConfirm(false);
       setTimeout(() => setStatus(null), 4000);
     } catch (err) {
-      console.error("Failed to update password:", err);
+      console.error("[Auth Audit Failure] Password update error - Code:", err.code, "| Message:", err.message);
       let errMsg = "Failed to update password. Please check your credentials.";
       if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
         errMsg = "Current password is incorrect.";
