@@ -205,8 +205,8 @@ export default function SocialServicesManager() {
     <div className="max-w-4xl pb-12 animate-enter">
       <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
         <div>
-          <h2 className="font-sans font-medium text-2xl text-slate-100 tracking-tight">Social Services Manager</h2>
-          <p className="text-sm text-slate-400 mt-1.5">Manage your dynamic initiatives list, stats counters, banners, and CTA blocks.</p>
+          <h2 className="font-sans font-medium text-2xl text-slate-100 tracking-tight">Social Services Settings</h2>
+          <p className="text-sm text-slate-400 mt-1.5">Manage service initiatives, statistics counters, and page text details.</p>
         </div>
         {activeTab === 'settings' && (
           <button 
@@ -249,7 +249,7 @@ export default function SocialServicesManager() {
             activeTab === 'settings' ? 'border-[#c9a84c] text-[#c9a84c]' : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          Page Configuration
+          Page Text &amp; Settings
         </button>
       </div>
 
@@ -300,7 +300,7 @@ export default function SocialServicesManager() {
           ) : (
             <m.div key="cards-list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
               <div className="flex justify-between items-center">
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Dynamic Initiatives</h3>
+                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Service Cards</h3>
                 <button onClick={() => openCardEditor()} className="bg-[#c9a84c] text-slate-950 hover:bg-[#dfc26b] py-2 px-4 rounded-lg flex items-center gap-1.5 text-xs font-semibold transition-all">
                   <Plus size={14} /> Add Service Card
                 </button>
@@ -335,15 +335,15 @@ export default function SocialServicesManager() {
             
             {/* Intro Narratives */}
             <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-8 shadow-lg">
-              <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Intro Narratives</h3>
+              <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Introduction Paragraphs</h3>
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <label className="block text-[0.75rem] font-medium text-slate-400">Intro Paragraph 1</label>
+                  <label className="block text-[0.75rem] font-medium text-slate-400">First Paragraph</label>
                   <textarea name="servicesIntroPart1" value={settingsForm.servicesIntroPart1} onChange={handleSettingsChange} rows="3"
                     className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 transition-all text-[0.9rem] resize-y leading-relaxed" />
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-[0.75rem] font-medium text-slate-400">Intro Paragraph 2</label>
+                  <label className="block text-[0.75rem] font-medium text-slate-400">Second Paragraph</label>
                   <textarea name="servicesIntroPart2" value={settingsForm.servicesIntroPart2} onChange={handleSettingsChange} rows="3"
                     className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 transition-all text-[0.9rem] resize-y leading-relaxed" />
                 </div>
@@ -352,9 +352,9 @@ export default function SocialServicesManager() {
 
             {/* Banners */}
             <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-8 shadow-lg">
-              <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Social Services Banner</h3>
+              <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Page Banner Image</h3>
               <div className="space-y-2">
-                <label className="block text-[0.75rem] font-medium text-slate-400">Full-width Section Banner</label>
+                <label className="block text-[0.75rem] font-medium text-slate-400">Upload Banner Photo</label>
                 <div className="relative border border-slate-800 rounded-xl overflow-hidden bg-slate-950/50 h-[220px] flex items-center justify-center">
                   {settingsForm.servicesBanner ? (
                     <>
@@ -381,7 +381,7 @@ export default function SocialServicesManager() {
                   className="w-full mt-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   <Upload size={14} />
-                  Upload Banner Image
+                  Upload Banner Photo
                 </button>
                 <input type="file" accept="image/*" ref={bannerInputRef} onChange={handleImageUpload} className="hidden" />
               </div>
@@ -389,7 +389,7 @@ export default function SocialServicesManager() {
 
             {/* Statistics Section */}
             <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-8 shadow-lg">
-              <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Social Service Stats</h3>
+              <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Statistics Counters</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 {/* Stat 1 */}
@@ -425,7 +425,7 @@ export default function SocialServicesManager() {
                   <div className="space-y-2">
                     <label className="block text-[0.7rem] text-slate-400">Stat 3 Counter</label>
                     <input type="text" name="servicesStat3Count" value={settingsForm.servicesStat3Count} onChange={handleSettingsChange}
-                      className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-200 text-sm" />
+                      className="w-full px-3 py-2 bg-slate-900 border border-slate-850 rounded-lg text-slate-200 text-sm" />
                   </div>
                   <div className="space-y-2">
                     <label className="block text-[0.7rem] text-slate-400">Stat 3 Label</label>
@@ -439,22 +439,22 @@ export default function SocialServicesManager() {
 
             {/* CTA Segment */}
             <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-8 shadow-lg">
-              <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Social Call-to-Action</h3>
+              <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Call to Action (CTA) Section</h3>
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="block text-[0.75rem] font-medium text-slate-400">CTA Title</label>
+                    <label className="block text-[0.75rem] font-medium text-slate-400">CTA Heading</label>
                     <input type="text" name="servicesCtaTitle" value={settingsForm.servicesCtaTitle} onChange={handleSettingsChange}
                       className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 text-[0.9rem]" />
                   </div>
                   <div className="space-y-2">
-                    <label className="block text-[0.75rem] font-medium text-slate-400">CTA Button Text</label>
+                    <label className="block text-[0.75rem] font-medium text-slate-400">Button Label</label>
                     <input type="text" name="servicesCtaButtonText" value={settingsForm.servicesCtaButtonText} onChange={handleSettingsChange}
                       className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 text-[0.9rem]" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-[0.75rem] font-medium text-slate-400">CTA Description Text</label>
+                  <label className="block text-[0.75rem] font-medium text-slate-400">CTA Description</label>
                   <textarea name="servicesCtaText" value={settingsForm.servicesCtaText} onChange={handleSettingsChange} rows="3"
                     className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 transition-all text-[0.9rem] resize-none leading-relaxed" />
                 </div>

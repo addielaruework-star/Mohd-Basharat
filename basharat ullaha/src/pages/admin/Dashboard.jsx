@@ -6,13 +6,13 @@ import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestor
 
 const overviewActions = [
   { label: 'Messages Inbox', to: '/admin/messages', icon: Mail },
-  { label: 'Profile Settings', to: '/admin/profile', icon: UserCircle },
+  { label: 'About Section Settings', to: '/admin/about', icon: UserCircle },
   { label: 'Gallery Management', to: '/admin/gallery', icon: ImageIcon },
-  { label: 'Awards & Honors', to: '/admin/awards', icon: Award },
+  { label: 'Awards & Certificates', to: '/admin/recognition', icon: Award },
 ];
 
 const contentCards = [
-  { title: 'Update Biography', desc: 'Modify your personal bio and hero subtitle.', to: '/admin/profile', icon: UserCircle },
+  { title: 'Update Biography', desc: 'Modify your personal bio and hero subtitle.', to: '/admin/about', icon: UserCircle },
   { title: 'Upload Photos', desc: 'Add new images to your public gallery.', to: '/admin/gallery', icon: ImageIcon },
   { title: 'Add Achievement', desc: 'Record a new milestone in your career.', to: '/admin/achievements', icon: Trophy },
   { title: 'Manage Connections', desc: 'Update links to affiliated organizations.', to: '/admin/connections', icon: LinkIcon },

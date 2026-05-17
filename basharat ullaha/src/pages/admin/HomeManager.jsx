@@ -123,8 +123,8 @@ export default function HomeManager() {
     <div className="max-w-4xl pb-12 animate-enter">
       <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
         <div>
-          <h2 className="font-sans font-medium text-2xl text-slate-100 tracking-tight">Home Manager</h2>
-          <p className="text-sm text-slate-400 mt-1.5">Manage your home hero block, visual banners, and call-to-actions.</p>
+          <h2 className="font-sans font-medium text-2xl text-slate-100 tracking-tight">Home Page Settings</h2>
+          <p className="text-sm text-slate-400 mt-1.5">Manage your homepage details, image banners, and contact links.</p>
         </div>
         <button 
           onClick={handleSave}
@@ -155,18 +155,18 @@ export default function HomeManager() {
           <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Hero Content</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
             <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Hero Main Title (Full Name)</label>
+              <label className="block text-[0.75rem] font-medium text-slate-400">Full Name (Main Heading)</label>
               <input type="text" name="name" value={formData.name} onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem]" />
             </div>
             <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Professional Eyebrow / Role</label>
+              <label className="block text-[0.75rem] font-medium text-slate-400">Professional Subtitle (Role)</label>
               <input type="text" name="role" value={formData.role} onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem]" />
             </div>
           </div>
           <div className="space-y-2">
-            <label className="block text-[0.75rem] font-medium text-slate-400">Hero Subtitle Text</label>
+            <label className="block text-[0.75rem] font-medium text-slate-400">Introductory Subtitle</label>
             <textarea name="heroSubtitle" value={formData.heroSubtitle} onChange={handleChange} rows="3"
               className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem] resize-none leading-relaxed"></textarea>
           </div>
@@ -174,12 +174,12 @@ export default function HomeManager() {
 
         {/* Hero Visual Banners */}
         <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-8 lg:p-10 shadow-lg shadow-black/20">
-          <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Hero Visual Media</h3>
+          <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Homepage Banners</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             {/* Desktop Hero Image */}
             <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Desktop Hero Image</label>
+              <label className="block text-[0.75rem] font-medium text-slate-400">Desktop Banner Photo</label>
               <div className="relative border border-slate-800 rounded-xl overflow-hidden bg-slate-950/50 h-[200px] flex items-center justify-center">
                 {formData.profileImage ? (
                   <>
@@ -206,14 +206,14 @@ export default function HomeManager() {
                 className="w-full mt-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
               >
                 <Upload size={14} />
-                Upload Desktop Image
+                Upload Desktop Photo
               </button>
               <input type="file" accept="image/*" ref={heroInputRef} onChange={(e) => handleImageUpload(e, 'hero')} className="hidden" />
             </div>
 
             {/* Mobile Hero Image */}
             <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Mobile Hero Image</label>
+              <label className="block text-[0.75rem] font-medium text-slate-400">Mobile Banner Photo</label>
               <div className="relative border border-slate-800 rounded-xl overflow-hidden bg-slate-950/50 h-[200px] flex items-center justify-center">
                 {formData.mobileHeroImage ? (
                   <>
@@ -240,7 +240,7 @@ export default function HomeManager() {
                 className="w-full mt-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
               >
                 <Upload size={14} />
-                Upload Mobile Image
+                Upload Mobile Photo
               </button>
               <input type="file" accept="image/*" ref={mobileInputRef} onChange={(e) => handleImageUpload(e, 'mobile')} className="hidden" />
             </div>
@@ -250,27 +250,27 @@ export default function HomeManager() {
 
         {/* CTA Contact & Action Buttons */}
         <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-8 lg:p-10 shadow-lg shadow-black/20">
-          <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">CTA &amp; Social Destinations</h3>
+          <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Social &amp; Contact Links</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
             <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Phone Hotline Call Link</label>
+              <label className="block text-[0.75rem] font-medium text-slate-400">Phone Number</label>
               <input type="tel" name="phone" value={formData.phone} onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem] font-mono" />
             </div>
             <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Email Address Contact Link</label>
+              <label className="block text-[0.75rem] font-medium text-slate-400">Email Address</label>
               <input type="email" name="email" value={formData.email} onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem] font-mono" />
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Instagram Action URL</label>
+              <label className="block text-[0.75rem] font-medium text-slate-400">Instagram Link</label>
               <input type="url" name="instagram" value={formData.instagram} onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem]" />
             </div>
             <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Facebook Action URL</label>
+              <label className="block text-[0.75rem] font-medium text-slate-400">Facebook Link</label>
               <input type="url" name="facebook" value={formData.facebook} onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem]" />
             </div>
