@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
-import { Shield, Key, Loader2, CheckCircle2, AlertCircle, Monitor, Moon } from 'lucide-react';
+import { Shield, Key, Loader2, CheckCircle2, AlertCircle, Monitor, Moon, Eye, EyeOff } from 'lucide-react';
+import { auth } from '../../lib/firebase';
+import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
 
 export default function Settings() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
@@ -24,19 +30,41 @@ export default function Settings() {
     setLoading(true);
     setStatus(null);
 
-    // Mock API Call
-    setTimeout(() => {
-      setLoading(false);
-      if (currentPassword === 'Alice123@') {
-        setStatus({ type: 'success', message: 'Password has been successfully updated.' });
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmPassword('');
-        setTimeout(() => setStatus(null), 4000);
-      } else {
-        setStatus({ type: 'error', message: 'Current password is incorrect.' });
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("No authenticated session found. Please log in again.");
       }
-    }, 1000);
+
+      // Reauthenticate user before changing password
+      const credential = EmailAuthProvider.credential(user.email, currentPassword);
+      await reauthenticateWithCredential(user, credential);
+
+      // Update password
+      await updatePassword(user, newPassword);
+
+      setStatus({ type: 'success', message: 'Password has been successfully updated.' });
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setShowCurrent(false);
+      setShowNew(false);
+      setShowConfirm(false);
+      setTimeout(() => setStatus(null), 4000);
+    } catch (err) {
+      console.error("Failed to update password:", err);
+      let errMsg = "Failed to update password. Please check your credentials.";
+      if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        errMsg = "Current password is incorrect.";
+      } else if (err.code === 'auth/weak-password') {
+        errMsg = "New password is too weak.";
+      } else if (err.message) {
+        errMsg = err.message;
+      }
+      setStatus({ type: 'error', message: errMsg });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -81,26 +109,66 @@ export default function Settings() {
                 <label className="block text-[0.75rem] font-medium text-slate-400">Current Password</label>
                 <div className="relative group">
                   <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-                  <input type="password" required value={currentPassword} onChange={e => setCurrentPassword(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-100 transition-all text-[0.9rem]" />
+                  <input 
+                    type={showCurrent ? "text" : "password"} 
+                    required 
+                    value={currentPassword} 
+                    onChange={e => setCurrentPassword(e.target.value)}
+                    className="w-full pl-11 pr-12 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-100 transition-all text-[0.9rem]" 
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrent(!showCurrent)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors focus:outline-none"
+                  >
+                    {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
                 <div className="space-y-2">
                   <label className="block text-[0.75rem] font-medium text-slate-400">New Password</label>
-                  <input type="password" required value={newPassword} onChange={e => setNewPassword(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-100 transition-all text-[0.9rem]" />
+                  <div className="relative group">
+                    <input 
+                      type={showNew ? "text" : "password"} 
+                      required 
+                      value={newPassword} 
+                      onChange={e => setNewPassword(e.target.value)}
+                      className="w-full pl-4 pr-12 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-100 transition-all text-[0.9rem]" 
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNew(!showNew)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors focus:outline-none"
+                    >
+                      {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[0.75rem] font-medium text-slate-400">Confirm New Password</label>
-                  <input type="password" required value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-100 transition-all text-[0.9rem]" />
+                  <div className="relative group">
+                    <input 
+                      type={showConfirm ? "text" : "password"} 
+                      required 
+                      value={confirmPassword} 
+                      onChange={e => setConfirmPassword(e.target.value)}
+                      className="w-full pl-4 pr-12 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-100 transition-all text-[0.9rem]" 
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirm(!showConfirm)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors focus:outline-none"
+                    >
+                      {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
               </div>
 
               <div className="pt-4 flex justify-end gap-3">
-                <button type="button" onClick={() => { setCurrentPassword(''); setNewPassword(''); setConfirmPassword(''); setStatus(null); }} className="px-5 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-colors">
+                <button type="button" onClick={() => { setCurrentPassword(''); setNewPassword(''); setConfirmPassword(''); setStatus(null); setShowCurrent(false); setShowNew(false); setShowConfirm(false); }} className="px-5 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-colors">
                   Clear
                 </button>
                 <button type="submit" disabled={loading || !currentPassword || !newPassword || !confirmPassword} className="bg-[#c9a84c] text-slate-950 hover:bg-[#dfc26b] py-2.5 px-6 rounded-lg flex items-center gap-2 text-[0.85rem] font-semibold transition-all disabled:opacity-50 disabled:active:scale-100 active:scale-[0.98]">
@@ -143,6 +211,5 @@ export default function Settings() {
 
       </div>
     </div>
-
   );
 }
