@@ -141,16 +141,49 @@ const Gallery = memo(function Gallery() {
                       boxShadow: '0 2px 12px rgba(11,29,53,0.06)',
                     }}
                   >
-                    <LazyImage
-                      src={optimizeCloudinaryUrl(item.url)}
-                      alt={item.caption}
-                      className="w-full"
-                      style={{ height: 'auto', display: 'block' }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = galleryData[0]?.url || '';
-                      }}
-                    />
+                    {item.type === 'video' ? (
+                      <div className="w-full relative aspect-video" style={{ display: 'block', overflow: 'hidden' }}>
+                        <video
+                          src={optimizeCloudinaryUrl(item.url)}
+                          className="w-full"
+                          style={{ height: 'auto', display: 'block', objectFit: 'cover' }}
+                          preload="metadata"
+                          playsInline
+                          muted
+                        />
+                        {/* Play symbol badge overlay */}
+                        <div style={{
+                          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                          background: 'rgba(11,29,53,0.85)', backdropFilter: 'blur(4px)',
+                          borderRadius: '50%', width: 44, height: 44,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          border: '1px solid rgba(255,255,255,0.25)',
+                          color: '#c9a84c',
+                        }}>
+                          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style={{ marginLeft: 2 }}><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <div style={{
+                          position: 'absolute', top: 8, left: 8,
+                          background: '#c9a84c',
+                          color: '#07101e',
+                          fontSize: '0.55rem', fontWeight: 800,
+                          letterSpacing: '0.08em',
+                          padding: '3px 8px', borderRadius: 4,
+                          textTransform: 'uppercase',
+                        }}>Video</div>
+                      </div>
+                    ) : (
+                      <LazyImage
+                        src={optimizeCloudinaryUrl(item.url)}
+                        alt={item.caption}
+                        className="w-full"
+                        style={{ height: 'auto', display: 'block' }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = galleryData[0]?.url || '';
+                        }}
+                      />
+                    )}
                     {/* Hover overlay */}
                     <div className="gallery-overlay">
                       <p style={{
@@ -230,12 +263,24 @@ const Gallery = memo(function Gallery() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 overflow: 'hidden',
               }}>
-                <LazyImage
-                  src={optimizeCloudinaryUrl(modal.url)}
-                  alt={modal.caption}
-                  className="w-full h-full"
-                  style={{ objectFit: 'contain' }}
-                />
+                {modal.type === 'video' ? (
+                  <video
+                    src={optimizeCloudinaryUrl(modal.url)}
+                    className="w-full h-full"
+                    style={{ objectFit: 'contain', maxHeight: '100%', outline: 'none' }}
+                    controls
+                    preload="metadata"
+                    playsInline
+                    autoPlay
+                  />
+                ) : (
+                  <LazyImage
+                    src={optimizeCloudinaryUrl(modal.url)}
+                    alt={modal.caption}
+                    className="w-full h-full"
+                    style={{ objectFit: 'contain' }}
+                  />
+                )}
               </div>
 
               <div style={{ padding: '1.5rem 2rem 2rem' }}>

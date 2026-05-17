@@ -62,32 +62,36 @@ export const uploadImage = async (file) => {
     throw new Error("No file provided");
   }
 
-  // Validate file type
-  const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-  if (!validTypes.includes(file.type)) {
-    throw new Error("Invalid file type. Only JPG, PNG, and WEBP are supported.");
+  const isVideo = file.type.startsWith('video/');
+  const isImage = file.type.startsWith('image/');
+
+  if (!isImage && !isVideo) {
+    throw new Error("Invalid file type. Supported types: JPG, PNG, WEBP, and MP4/WEBM/OGG/MOV videos.");
   }
 
-  // Validate file size (max 10MB before compression)
-  const maxSize = 10 * 1024 * 1024; // 10MB
+  // Validate file size (max 50MB for video, 10MB for image before compression)
+  const maxSize = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
   if (file.size > maxSize) {
-    throw new Error("File size exceeds the 10MB limit.");
+    throw new Error(`File size exceeds limit (${isVideo ? '50MB' : '10MB'}).`);
   }
 
   if (!CLOUD_NAME || !UPLOAD_PRESET) {
     throw new Error("Cloudinary configuration is missing. Please set VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET in .env");
   }
 
-  // Compress image
-  const compressedFile = await compressImage(file);
+  // Compress only images, leave video untouched
+  const fileToUpload = isImage ? await compressImage(file) : file;
 
   const formData = new FormData();
-  formData.append('file', compressedFile);
+  formData.append('file', fileToUpload);
   formData.append('upload_preset', UPLOAD_PRESET);
+  formData.append('resource_type', isVideo ? 'video' : 'image');
 
   try {
+    const uploadUrl = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${isVideo ? 'video' : 'image'}/upload`;
+    
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      uploadUrl,
       {
         method: 'POST',
         body: formData,
@@ -96,7 +100,7 @@ export const uploadImage = async (file) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error?.message || 'Failed to upload image to Cloudinary');
+      throw new Error(errorData.error?.message || 'Failed to upload to Cloudinary');
     }
 
     const data = await response.json();

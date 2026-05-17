@@ -53,26 +53,30 @@ export default function GalleryManager() {
   const handleFileSelect = (e) => {
     const selected = e.target.files[0];
     if (selected) {
-      // Validate file type
-      const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-      if (!validTypes.includes(selected.type)) {
-        showToast("Invalid file type. Only JPG, PNG, and WEBP are supported.", "error");
+      const isImage = selected.type.startsWith('image/');
+      const isVideo = selected.type.startsWith('video/');
+      if (!isImage && !isVideo) {
+        showToast("Invalid file type. Supported types: JPG, PNG, WEBP, and MP4/WEBM/OGG/MOV videos.", "error");
         return;
       }
-      // Validate size (5MB)
-      if (selected.size > 5 * 1024 * 1024) {
-        showToast("File size exceeds 5MB limit.", "error");
+      // Max 50MB for video, 10MB for image
+      const maxLimit = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
+      if (selected.size > maxLimit) {
+        showToast(`File size exceeds limit (${isVideo ? '50MB' : '10MB'}).`, "error");
         return;
       }
 
       setFile(selected);
-      const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result);
-      reader.readAsDataURL(selected);
+      // Create Object URL for clean browser preview of both images and videos
+      const url = URL.createObjectURL(selected);
+      setPreview(url);
     }
   };
 
   const clearSelection = () => {
+    if (preview && preview.startsWith('blob:')) {
+      URL.revokeObjectURL(preview);
+    }
     setFile(null);
     setPreview('');
     if (fileInputRef.current) fileInputRef.current.value = '';
@@ -83,6 +87,7 @@ export default function GalleryManager() {
     if (!file) return;
 
     setUploading(true);
+    const isVideo = file.type.startsWith('video/');
     
     try {
       // 1. Upload to Cloudinary
@@ -95,6 +100,7 @@ export default function GalleryManager() {
         category,
         title,
         caption,
+        type: isVideo ? 'video' : 'image',
         createdAt: new Date().toISOString()
       };
       
@@ -106,10 +112,10 @@ export default function GalleryManager() {
       clearSelection();
       setTitle('');
       setCaption('');
-      showToast("Image uploaded successfully!");
+      showToast(`${isVideo ? 'Video' : 'Image'} uploaded successfully!`);
     } catch (err) {
       console.error("Upload failed", err);
-      showToast(err.message || "Failed to upload image.", "error");
+      showToast(err.message || "Failed to upload.", "error");
     } finally {
       setUploading(false);
     }
@@ -223,11 +229,11 @@ export default function GalleryManager() {
                 <div className="w-14 h-14 rounded-full bg-[#c9a84c]/5 flex items-center justify-center mb-5 border border-slate-800">
                   <Upload className="text-slate-400" size={22} />
                 </div>
-                <p className="text-[0.95rem] font-medium text-slate-100 mb-1">Select an image to upload</p>
-                <p className="text-[0.8rem] text-slate-500">JPEG, PNG, WebP up to 5MB</p>
+                <p className="text-[0.95rem] font-medium text-slate-100 mb-1">Select an image or video to upload</p>
+                <p className="text-[0.8rem] text-slate-500">Images (up to 10MB) or Videos (up to 50MB)</p>
                 <input 
                   type="file" 
-                  accept="image/*" 
+                  accept="image/*,video/*" 
                   ref={fileInputRef} 
                   onChange={handleFileSelect} 
                   className="hidden" 
@@ -235,9 +241,13 @@ export default function GalleryManager() {
               </div>
             ) : (
               <div className="relative rounded-2xl overflow-hidden h-[340px] border border-white/[0.1] group bg-black">
-                <LazyImage src={preview} alt="Preview" className="w-full h-full opacity-90" />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
-                  <button type="button" onClick={clearSelection} className="bg-red-500/20 hover:bg-red-500/40 text-red-100 p-4 rounded-full transition-colors border border-red-500/30">
+                {file && file.type.startsWith('video/') ? (
+                  <video src={preview} controls className="w-full h-full object-contain" />
+                ) : (
+                  <LazyImage src={preview} alt="Preview" className="w-full h-full opacity-90" />
+                )}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm pointer-events-none">
+                  <button type="button" onClick={clearSelection} className="pointer-events-auto bg-red-500/20 hover:bg-red-500/40 text-red-100 p-4 rounded-full transition-colors border border-red-500/30">
                     <X size={20} />
                   </button>
                 </div>
@@ -324,7 +334,22 @@ export default function GalleryManager() {
                 className="bg-slate-900/80 backdrop-blur-xl rounded-xl border border-slate-800 overflow-hidden group hover:border-[#c9a84c]/50 transition-all duration-300 shadow-lg shadow-black/20"
               >
                 <div className="aspect-[4/3] relative bg-slate-950/50">
-                  <LazyImage src={optimizeCloudinaryUrl(img.url)} alt={img.caption} className="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+                  {img.type === 'video' ? (
+                    <div className="w-full h-full relative">
+                      <video 
+                        src={optimizeCloudinaryUrl(img.url)} 
+                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" 
+                        preload="metadata" 
+                        muted 
+                        playsInline
+                      />
+                      <div className="absolute top-2 left-2 bg-[#c9a84c] text-slate-950 font-bold text-[9px] px-2 py-0.5 rounded tracking-wider shadow">
+                        VIDEO
+                      </div>
+                    </div>
+                  ) : (
+                    <LazyImage src={optimizeCloudinaryUrl(img.url)} alt={img.caption} className="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+                  )}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                     {deletingId === img.id ? (
                       <Loader2 className="animate-spin text-red-500" size={20} />
