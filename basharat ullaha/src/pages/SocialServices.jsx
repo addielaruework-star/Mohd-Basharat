@@ -82,11 +82,11 @@ const SocialServices = memo(function SocialServices() {
               <p className="eyebrow mb-4">Public Welfare</p>
               <h2 className="section-title mb-4" style={{ maxWidth: 360 }}>Serving Where It Matters Most</h2>
               <div className="gold-rule mb-6" />
-              <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85, marginBottom: '1rem' }}>
-                {name}'s social service programs reach vulnerable communities — offering tangible relief, advocacy, and educational opportunity.
+              <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85, marginBottom: '1rem', whiteSpace: 'pre-line' }}>
+                {profile?.servicesIntroPart1 || `${name}'s social service programs reach vulnerable communities — offering tangible relief, advocacy, and educational opportunity.`}
               </p>
-              <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85 }}>
-                Each initiative is driven by a sincere commitment to human dignity and the belief that systemic change begins with consistent grassroots action and collaboration.
+              <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85, whiteSpace: 'pre-line' }}>
+                {profile?.servicesIntroPart2 || `Each initiative is driven by a sincere commitment to human dignity and the belief that systemic change begins with consistent grassroots action and collaboration.`}
               </p>
             </div>
           </div>
@@ -125,6 +125,26 @@ const SocialServices = memo(function SocialServices() {
         </div>
       </div>
       
+      {/* Dynamic Statistics Section */}
+      <div style={{ background: 'var(--navy)', padding: '5rem 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="container-custom">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+            <div className="space-y-2 animate-enter">
+              <h3 className="font-display font-bold text-4xl text-[var(--gold)]">{profile?.servicesStat1Count || '10,000+'}</h3>
+              <p className="text-xs text-slate-400 font-semibold tracking-widest uppercase">{profile?.servicesStat1Label || 'Lives Impacted'}</p>
+            </div>
+            <div className="space-y-2 animate-enter" style={{ animationDelay: '0.1s' }}>
+              <h3 className="font-display font-bold text-4xl text-[var(--gold)]">{profile?.servicesStat2Count || '50+'}</h3>
+              <p className="text-xs text-slate-400 font-semibold tracking-widest uppercase">{profile?.servicesStat2Label || 'Villages Reached'}</p>
+            </div>
+            <div className="space-y-2 animate-enter" style={{ animationDelay: '0.2s' }}>
+              <h3 className="font-display font-bold text-4xl text-[var(--gold)]">{profile?.servicesStat3Count || '15+'}</h3>
+              <p className="text-xs text-slate-400 font-semibold tracking-widest uppercase">{profile?.servicesStat3Label || 'NGO Collaborations'}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* CMS-managed banner */}
       <div className="relative overflow-hidden" style={{ height: 'clamp(350px, 60vh, 520px)' }}>
         <LazyImage
@@ -134,6 +154,19 @@ const SocialServices = memo(function SocialServices() {
           style={{ objectPosition: 'center 30%' }}
         />
         <div className="overlay-premium" />
+      </div>
+
+      {/* Call to Action Section */}
+      <div style={{ background: 'var(--cream)', padding: '5rem 0', textAlign: 'center' }}>
+        <div className="container-custom" style={{ maxWidth: '640px', margin: '0 auto' }}>
+          <h2 className="font-display font-bold text-3xl text-[var(--navy)] mb-4">{profile?.servicesCtaTitle || 'Support Our Social Causes'}</h2>
+          <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.8, marginBottom: '2.5rem', whiteSpace: 'pre-line' }}>
+            {profile?.servicesCtaText || 'Join hands with us to bring sustainable change and uplift marginalized communities.'}
+          </p>
+          <a href="/contact" className="btn-primary" style={{ display: 'inline-flex', margin: '0 auto', textDecoration: 'none' }}>
+            {profile?.servicesCtaButtonText || 'Get In Touch'}
+          </a>
+        </div>
       </div>
 
     </PageContainer>

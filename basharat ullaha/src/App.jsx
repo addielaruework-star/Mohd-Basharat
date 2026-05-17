@@ -27,12 +27,13 @@ const Contact         = lazy(() => import('./pages/Contact'))
 const AdminLayout          = lazy(() => import('./pages/admin/AdminLayout'))
 const Login                = lazy(() => import('./pages/admin/Login'))
 const Dashboard            = lazy(() => import('./pages/admin/Dashboard'))
-const ProfileManager       = lazy(() => import('./pages/admin/ProfileManager'))
-const GalleryManager       = lazy(() => import('./pages/admin/GalleryManager'))
-const AchievementsManager  = lazy(() => import('./pages/admin/AchievementsManager'))
-const AwardsManager        = lazy(() => import('./pages/admin/AwardsManager'))
-const CertificatesManager  = lazy(() => import('./pages/admin/CertificatesManager'))
-const ConnectionsManager   = lazy(() => import('./pages/admin/ConnectionsManager'))
+const AboutSectionSettings  = lazy(() => import('./pages/admin/ProfileManager'))
+const HomeManager            = lazy(() => import('./pages/admin/HomeManager'))
+const SocialServicesManager  = lazy(() => import('./pages/admin/SocialServicesManager'))
+const GalleryManager         = lazy(() => import('./pages/admin/GalleryManager'))
+const AchievementsManager    = lazy(() => import('./pages/admin/AchievementsManager'))
+const AwardsCertificatesManager = lazy(() => import('./pages/admin/AwardsCertificatesManager'))
+const ConnectionsManager     = lazy(() => import('./pages/admin/ConnectionsManager'))
 const Settings             = lazy(() => import('./pages/admin/Settings'))
 const SiteAssetsManager    = lazy(() => import('./pages/admin/SiteAssetsManager'))
 const MessagesManager      = lazy(() => import('./pages/admin/MessagesManager'))
@@ -108,11 +109,12 @@ export default function App() {
                   element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}
                 >
                   <Route path="dashboard"    element={<Dashboard />} />
-                  <Route path="profile"      element={<ProfileManager />} />
+                  <Route path="home"         element={<HomeManager />} />
+                  <Route path="about"        element={<AboutSectionSettings />} />
+                  <Route path="services"     element={<SocialServicesManager />} />
                   <Route path="gallery"      element={<GalleryManager />} />
                   <Route path="achievements" element={<AchievementsManager />} />
-                  <Route path="awards"       element={<AwardsManager />} />
-                  <Route path="certificates" element={<CertificatesManager />} />
+                  <Route path="recognition"  element={<AwardsCertificatesManager />} />
                   <Route path="connections"  element={<ConnectionsManager />} />
                   <Route path="settings"     element={<Settings />} />
                   <Route path="site-assets"  element={<SiteAssetsManager />} />

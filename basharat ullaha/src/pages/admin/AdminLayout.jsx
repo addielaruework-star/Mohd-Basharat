@@ -4,23 +4,24 @@ import { useAuth } from '../../context/AuthContext';
 import { 
   LayoutDashboard, Image as ImageIcon, UserCircle, Award, 
   FileText, Link as LinkIcon, Trophy, LogOut, Menu, X, 
-  Settings, ChevronDown, Monitor, Layers, Mail
+  Settings, ChevronDown, Monitor, Layers, Mail, Home as HomeIcon, Heart
 } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
 const navItems = [
-  { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Overview', exact: true },
-  { to: '/admin/messages',  icon: Mail, label: 'Messages', badge: true },
-  { to: '/admin/profile', icon: UserCircle, label: 'Profile' },
-  { to: '/admin/gallery', icon: ImageIcon, label: 'Gallery' },
-  { to: '/admin/achievements', icon: Trophy, label: 'Achievements' },
-  { to: '/admin/awards', icon: Award, label: 'Awards' },
-  { to: '/admin/certificates', icon: FileText, label: 'Certificates' },
-  { to: '/admin/connections', icon: LinkIcon, label: 'Connections' },
-  { to: '/admin/settings',    icon: Settings, label: 'Settings' },
-  { to: '/admin/site-assets', icon: Layers,   label: 'Site Assets' },
+  { to: '/admin/dashboard',    icon: LayoutDashboard, label: 'Overview', exact: true },
+  { to: '/admin/messages',     icon: Mail,            label: 'Messages', badge: true },
+  { to: '/admin/home',         icon: HomeIcon,        label: 'Home Manager' },
+  { to: '/admin/about',        icon: UserCircle,      label: 'About Settings' },
+  { to: '/admin/services',     icon: Heart,           label: 'Social Services' },
+  { to: '/admin/gallery',      icon: ImageIcon,       label: 'Gallery' },
+  { to: '/admin/achievements', icon: Trophy,          label: 'Achievements' },
+  { to: '/admin/recognition',  icon: Award,           label: 'Awards & Certs' },
+  { to: '/admin/connections',  icon: LinkIcon,        label: 'Connections' },
+  { to: '/admin/settings',     icon: Settings,        label: 'Settings' },
+  { to: '/admin/site-assets',  icon: Layers,          label: 'Site Assets' },
 ];
 
 export default function AdminLayout() {
