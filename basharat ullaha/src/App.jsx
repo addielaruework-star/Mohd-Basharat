@@ -9,6 +9,7 @@ import ProtectedRoute from './routes/ProtectedRoute'
 import MainLayout from './layouts/MainLayout'
 import GoogleAnalytics from './components/GoogleAnalytics'
 import MicrosoftClarity from './components/MicrosoftClarity'
+import ScrollToTop from './components/ScrollToTop'
 
 // ─── Public pages — eagerly loaded (fast first paint) ────────────────────────
 import Home from './pages/Home'
@@ -71,6 +72,7 @@ export default function App() {
         <ProfileProvider>
           <SiteAssetsProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <GoogleAnalytics />
             <MicrosoftClarity />
             <Toaster 
