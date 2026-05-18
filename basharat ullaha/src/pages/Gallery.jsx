@@ -22,10 +22,9 @@ import LazyImage from '../components/LazyImage'
 const CATS = [
   'All',
   'Social Activities',
-  'Awards & Felicitations',
+  'Milestone',
   'Meetings & Conferences',
   'Public Events & Speaking',
-  'Certificates & Achievements',
 ]
 
 const Gallery = memo(function Gallery() {
@@ -66,7 +65,12 @@ const Gallery = memo(function Gallery() {
     return result
   }, [firestoreItems])
 
-  const filtered = active === 'All' ? mergedItems : mergedItems.filter(i => i.category === active)
+  const filtered = active === 'All' ? mergedItems : mergedItems.filter(i => {
+    if (active === 'Milestone') {
+      return i.category === 'Milestone' || i.category === 'Awards & Felicitations' || i.category === 'Certificates & Achievements';
+    }
+    return i.category === active;
+  })
   
   // Phase 9 Step 4: Separate images and videos
   const allImages = useMemo(() => filtered.filter(i => i.type !== 'video'), [filtered])
