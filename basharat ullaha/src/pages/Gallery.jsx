@@ -21,10 +21,10 @@ import LazyImage from '../components/LazyImage'
 
 const CATS = [
   'All',
-  'Social Activities',
-  'Milestone',
-  'Meetings & Conferences',
-  'Public Events & Speaking',
+  'Social Activity',
+  'Achievements',
+  'Meetings',
+  'Newspaper',
 ]
 
 const Gallery = memo(function Gallery() {
@@ -66,8 +66,17 @@ const Gallery = memo(function Gallery() {
   }, [firestoreItems])
 
   const filtered = active === 'All' ? mergedItems : mergedItems.filter(i => {
-    if (active === 'Milestone') {
-      return i.category === 'Milestone' || i.category === 'Awards & Felicitations' || i.category === 'Certificates & Achievements';
+    if (active === 'Social Activity') {
+      return i.category === 'Social Activity' || i.category === 'Social Activities';
+    }
+    if (active === 'Achievements') {
+      return i.category === 'Achievements' || i.category === 'Milestone' || i.category === 'Awards & Felicitations' || i.category === 'Certificates & Achievements';
+    }
+    if (active === 'Meetings') {
+      return i.category === 'Meetings' || i.category === 'Meetings & Conferences';
+    }
+    if (active === 'Newspaper') {
+      return i.category === 'Newspaper' || i.category === 'Public Events & Speaking' || i.category === 'Media Coverage' || i.category === 'Media';
     }
     return i.category === active;
   })
