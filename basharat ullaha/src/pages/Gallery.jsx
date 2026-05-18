@@ -67,7 +67,13 @@ const Gallery = memo(function Gallery() {
   }, [firestoreItems])
 
   const filtered = active === 'All' ? mergedItems : mergedItems.filter(i => i.category === active)
-  const visibleItems = filtered.slice(0, visibleCount)
+  
+  // Phase 9 Step 4: Separate images and videos
+  const allImages = useMemo(() => filtered.filter(i => i.type !== 'video'), [filtered])
+  const allVideos = useMemo(() => filtered.filter(i => i.type === 'video'), [filtered])
+  
+  const imageItems = allImages.slice(0, visibleCount)
+  const videoItems = allVideos.slice(0, visibleCount)
 
   const open = useCallback((item, i) => { setModal(item); setIdx(i) }, [])
   const close = useCallback(() => { setModal(null); setIdx(null) }, [])
@@ -77,6 +83,95 @@ const Gallery = memo(function Gallery() {
   const next = useCallback(() => {
     if (idx < filtered.length - 1) { setModal(filtered[idx + 1]); setIdx(idx + 1) }
   }, [idx, filtered])
+
+  const renderCard = (item) => {
+    const originalIndex = filtered.findIndex(f => f.id === item.id);
+    return (
+      <div
+        key={item.id}
+        onClick={() => open(item, originalIndex)}
+        className="masonry-item gallery-card"
+        style={{
+          borderRadius: 12,
+          cursor: 'pointer',
+          position: 'relative',
+          overflow: 'hidden',
+          display: 'block',
+          boxShadow: '0 2px 12px rgba(11,29,53,0.06)',
+        }}
+      >
+        {item.type === 'video' ? (
+          <div className="w-full relative aspect-video" style={{ display: 'block', overflow: 'hidden' }}>
+            <video
+              src={optimizeCloudinaryUrl(item.url)}
+              className="w-full"
+              style={{ height: 'auto', display: 'block', objectFit: 'cover' }}
+              preload="metadata"
+              playsInline
+              muted
+            />
+            {/* Play symbol badge overlay */}
+            <div style={{
+              position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+              background: 'rgba(11,29,53,0.85)', backdropFilter: 'blur(4px)',
+              borderRadius: '50%', width: 44, height: 44,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '1px solid rgba(255,255,255,0.25)',
+              color: '#c9a84c',
+            }}>
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style={{ marginLeft: 2 }}><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div style={{
+              position: 'absolute', top: 8, left: 8,
+              background: '#c9a84c',
+              color: '#07101e',
+              fontSize: '0.55rem', fontWeight: 800,
+              letterSpacing: '0.08em',
+              padding: '3px 8px', borderRadius: 4,
+              textTransform: 'uppercase',
+            }}>Video</div>
+          </div>
+        ) : (
+          <LazyImage
+            src={optimizeCloudinaryUrl(item.url)}
+            alt={item.caption}
+            className="w-full"
+            style={{ height: 'auto', display: 'block' }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = galleryData[0]?.url || '';
+            }}
+          />
+        )}
+        {/* Hover overlay */}
+        <div className="gallery-overlay">
+          <p style={{
+            fontSize: '0.9rem',
+            fontWeight: 700,
+            fontFamily: 'var(--font-body)',
+            letterSpacing: '0.05em',
+            color: '#fff',
+            textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+          }}>
+            {item.category}
+          </p>
+        </div>
+        {/* Local badge */}
+        {item.isLocal && (
+          <div style={{
+            position: 'absolute', top: 8, right: 8,
+            background: 'rgba(11,29,53,0.75)',
+            backdropFilter: 'blur(4px)',
+            color: 'rgba(255,255,255,0.6)',
+            fontSize: '0.6rem', fontWeight: 700,
+            letterSpacing: '0.08em',
+            padding: '3px 8px', borderRadius: 4,
+            textTransform: 'uppercase',
+          }}>Default</div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <PageContainer>
@@ -125,97 +220,38 @@ const Gallery = memo(function Gallery() {
             <SkeletonGallery count={8} />
           ) : (
             <>
-              <div key={active} className="masonry-grid">
-
-                {visibleItems.map((item, i) => (
-                  <div
-                    key={item.id}
-                    onClick={() => open(item, i)}
-                    className="masonry-item gallery-card"
-                    style={{
-                      borderRadius: 12,
-                      cursor: 'pointer',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      display: 'block',
-                      boxShadow: '0 2px 12px rgba(11,29,53,0.06)',
-                    }}
-                  >
-                    {item.type === 'video' ? (
-                      <div className="w-full relative aspect-video" style={{ display: 'block', overflow: 'hidden' }}>
-                        <video
-                          src={optimizeCloudinaryUrl(item.url)}
-                          className="w-full"
-                          style={{ height: 'auto', display: 'block', objectFit: 'cover' }}
-                          preload="metadata"
-                          playsInline
-                          muted
-                        />
-                        {/* Play symbol badge overlay */}
-                        <div style={{
-                          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                          background: 'rgba(11,29,53,0.85)', backdropFilter: 'blur(4px)',
-                          borderRadius: '50%', width: 44, height: 44,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          border: '1px solid rgba(255,255,255,0.25)',
-                          color: '#c9a84c',
-                        }}>
-                          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style={{ marginLeft: 2 }}><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                        <div style={{
-                          position: 'absolute', top: 8, left: 8,
-                          background: '#c9a84c',
-                          color: '#07101e',
-                          fontSize: '0.55rem', fontWeight: 800,
-                          letterSpacing: '0.08em',
-                          padding: '3px 8px', borderRadius: 4,
-                          textTransform: 'uppercase',
-                        }}>Video</div>
-                      </div>
-                    ) : (
-                      <LazyImage
-                        src={optimizeCloudinaryUrl(item.url)}
-                        alt={item.caption}
-                        className="w-full"
-                        style={{ height: 'auto', display: 'block' }}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = galleryData[0]?.url || '';
-                        }}
-                      />
-                    )}
-                    {/* Hover overlay */}
-                    <div className="gallery-overlay">
-                      <p style={{
-                        fontSize: '0.9rem',
-                        fontWeight: 700,
-                        fontFamily: 'var(--font-body)',
-                        letterSpacing: '0.05em',
-                        color: '#fff',
-                        textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-                      }}>
-                        {item.category}
-                      </p>
+              <div key={active} className="flex flex-col md:flex-row gap-8 lg:gap-12 w-full">
+                {/* Images Column */}
+                <div className="flex-1 w-full md:w-1/2">
+                  <h3 className="font-display text-xl font-bold text-slate-700 mb-6 border-b border-slate-200 pb-3">
+                    Images
+                  </h3>
+                  {imageItems.length === 0 ? (
+                    <p className="text-slate-400 text-sm">No images found for this category.</p>
+                  ) : (
+                    <div className="columns-1 sm:columns-2 gap-6">
+                      {imageItems.map(item => renderCard(item))}
                     </div>
-                    {/* Local badge */}
-                    {item.isLocal && (
-                      <div style={{
-                        position: 'absolute', top: 8, right: 8,
-                        background: 'rgba(11,29,53,0.75)',
-                        backdropFilter: 'blur(4px)',
-                        color: 'rgba(255,255,255,0.6)',
-                        fontSize: '0.6rem', fontWeight: 700,
-                        letterSpacing: '0.08em',
-                        padding: '3px 8px', borderRadius: 4,
-                        textTransform: 'uppercase',
-                      }}>Default</div>
-                    )}
-                  </div>
-                ))}
+                  )}
+                </div>
+
+                {/* Videos Column */}
+                <div className="flex-1 w-full md:w-1/2">
+                  <h3 className="font-display text-xl font-bold text-slate-700 mb-6 border-b border-slate-200 pb-3">
+                    Videos
+                  </h3>
+                  {videoItems.length === 0 ? (
+                    <p className="text-slate-400 text-sm">No videos found for this category.</p>
+                  ) : (
+                    <div className="columns-1 sm:columns-2 gap-6">
+                      {videoItems.map(item => renderCard(item))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Sentinel for infinite scroll */}
-              {visibleCount < filtered.length && (
+              {visibleCount < Math.max(allImages.length, allVideos.length) && (
                 <div 
                   ref={(el) => {
                     if (!el) return
@@ -225,8 +261,6 @@ const Gallery = memo(function Gallery() {
                       }
                     }, { rootMargin: '600px' })
                     observer.observe(el)
-                    // Note: In this simple one-off observer, we rely on the sentinel being removed 
-                    // when visibleCount increases or active category changes.
                   }}
                   style={{ height: 20, margin: '2rem 0' }}
                 />
