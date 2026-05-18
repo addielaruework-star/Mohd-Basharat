@@ -8,9 +8,8 @@ import { useProfile } from '../hooks/useFirebaseData'
 const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },
-  { to: '/achievements', label: 'Achievements' },
+  { to: '/milestone', label: 'Milestone' }, // Phase 9 — merged section
   { to: '/social-services', label: 'Services' },
-  { to: '/awards', label: 'Awards' },
   { to: '/gallery', label: 'Gallery' },
   { to: '/connections', label: 'Connections' },
   { to: '/contact', label: 'Contact' },

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
-  LayoutDashboard, Image as ImageIcon, UserCircle, Award, 
-  FileText, Link as LinkIcon, Trophy, LogOut, Menu, X, 
+  LayoutDashboard, Image as ImageIcon, UserCircle,
+  Link as LinkIcon, LogOut, Menu, X, 
   Settings, ChevronDown, Monitor, Layers, Mail, Home as HomeIcon, Heart
 } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
@@ -17,11 +17,10 @@ const navItems = [
   { to: '/admin/about',        icon: UserCircle,      label: 'About Section Settings' },
   { to: '/admin/services',     icon: Heart,           label: 'Social Services' },
   { to: '/admin/gallery',      icon: ImageIcon,       label: 'Gallery' },
-  { to: '/admin/achievements', icon: Trophy,          label: 'Achievements' },
-  { to: '/admin/recognition',  icon: Award,           label: 'Awards & Certificates' },
+  { to: '/admin/milestone',    icon: Layers,          label: 'Milestone' }, // Phase 9
   { to: '/admin/connections',  icon: LinkIcon,        label: 'Connections' },
   { to: '/admin/settings',     icon: Settings,        label: 'Settings' },
-  { to: '/admin/site-assets',  icon: Layers,          label: 'Site Assets' },
+  { to: '/admin/site-assets',  icon: ImageIcon,       label: 'Site Assets' },
 ];
 
 export default function AdminLayout() {

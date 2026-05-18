@@ -331,6 +331,56 @@
   contain: layout style;
 }
 
+/* ─── Phase 9 — Scroll To Top Button ────────────────────────── */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 40; /* below Navbar z-50, above page content */
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201, 168, 76, 0.45);
+  background: var(--navy);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(11, 29, 53, 0.35), 0 0 0 1px rgba(201, 168, 76, 0.08);
+  /* CSS-only transition — no JS animation overhead */
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease, box-shadow 0.2s ease;
+  will-change: opacity, transform;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.scroll-top-btn:hover {
+  background: var(--navy-light);
+  border-color: var(--gold);
+  box-shadow: 0 6px 24px rgba(201, 168, 76, 0.25), 0 2px 8px rgba(11, 29, 53, 0.4);
+}
+
+.scroll-top-btn:active {
+  transform: scale(0.92) !important;
+}
+
+/* Mobile: smaller, higher from bottom to clear browser nav chrome */
+@media (max-width: 767px) {
+  .scroll-top-btn {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 40px;
+    height: 40px;
+    /* Preserve CSS transition on mobile — it's lightweight */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .scroll-top-btn:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
 /* ─── Mobile Lightweight Mode (< 768px) ───────────────────────── */
 @media (max-width: 767px) {
   :root {

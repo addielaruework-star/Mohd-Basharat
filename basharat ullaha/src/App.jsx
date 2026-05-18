@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react'
 import { LazyMotion, domAnimation } from 'framer-motion'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { ProfileProvider } from './context/ProfileContext'
 import { SiteAssetsProvider } from './context/SiteAssetsContext'
@@ -15,10 +15,8 @@ import Home from './pages/Home'
 
 // ─── Secondary public pages — lazy loaded ────────────────────────────────────
 const About           = lazy(() => import('./pages/About'))
-const Achievements    = lazy(() => import('./pages/Achievements'))
+const Milestone       = lazy(() => import('./pages/Milestone'))   // Phase 9 — merged section
 const SocialServices  = lazy(() => import('./pages/SocialServices'))
-const Awards          = lazy(() => import('./pages/Awards'))
-const Certificates    = lazy(() => import('./pages/Certificates'))
 const Gallery         = lazy(() => import('./pages/Gallery'))
 const Connections     = lazy(() => import('./pages/Connections'))
 const Contact         = lazy(() => import('./pages/Contact'))
@@ -31,8 +29,7 @@ const AboutSectionSettings  = lazy(() => import('./pages/admin/ProfileManager'))
 const HomeManager            = lazy(() => import('./pages/admin/HomeManager'))
 const SocialServicesManager  = lazy(() => import('./pages/admin/SocialServicesManager'))
 const GalleryManager         = lazy(() => import('./pages/admin/GalleryManager'))
-const AchievementsManager    = lazy(() => import('./pages/admin/AchievementsManager'))
-const AwardsCertificatesManager = lazy(() => import('./pages/admin/AwardsCertificatesManager'))
+const MilestoneManager       = lazy(() => import('./pages/admin/MilestoneManager'))   // Phase 9 — unified manager
 const ConnectionsManager     = lazy(() => import('./pages/admin/ConnectionsManager'))
 const Settings             = lazy(() => import('./pages/admin/Settings'))
 const SiteAssetsManager    = lazy(() => import('./pages/admin/SiteAssetsManager'))
@@ -92,10 +89,13 @@ export default function App() {
                 <Route element={<MainLayout />}>
                   <Route path="/"                element={<Home />} />
                   <Route path="/about"           element={<About />} />
-                  <Route path="/achievements"    element={<Achievements />} />
+                  {/* Phase 9 — Milestone replaces individual pages */}
+                  <Route path="/milestone"       element={<Milestone />} />
+                  {/* Legacy redirects — keep old URLs working (bookmarks, SEO) */}
+                  <Route path="/achievements"    element={<Navigate to="/milestone" replace />} />
+                  <Route path="/awards"          element={<Navigate to="/milestone" replace />} />
+                  <Route path="/certificates"    element={<Navigate to="/milestone" replace />} />
                   <Route path="/social-services" element={<SocialServices />} />
-                  <Route path="/awards"          element={<Awards />} />
-                  <Route path="/certificates"    element={<Certificates />} />
                   <Route path="/gallery"         element={<Gallery />} />
                   <Route path="/connections"     element={<Connections />} />
                   <Route path="/contact"         element={<Contact />} />
@@ -113,8 +113,8 @@ export default function App() {
                   <Route path="about"        element={<AboutSectionSettings />} />
                   <Route path="services"     element={<SocialServicesManager />} />
                   <Route path="gallery"      element={<GalleryManager />} />
-                  <Route path="achievements" element={<AchievementsManager />} />
-                  <Route path="recognition"  element={<AwardsCertificatesManager />} />
+                  {/* Phase 9 — unified milestone manager */}
+                  <Route path="milestone"    element={<MilestoneManager />} />
                   <Route path="connections"  element={<ConnectionsManager />} />
                   <Route path="settings"     element={<Settings />} />
                   <Route path="site-assets"  element={<SiteAssetsManager />} />
