@@ -2,15 +2,15 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export default function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
-    // Reset scroll position to top when the route changes
+    // Reset scroll position to top when the route or query parameters change
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
-  }, [pathname]);
+  }, [pathname, search]);
 
   return null;
 }
