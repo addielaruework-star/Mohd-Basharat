@@ -4,23 +4,24 @@ import { useAuth } from '../../context/AuthContext';
 import { 
   LayoutDashboard, Image as ImageIcon, UserCircle,
   Link as LinkIcon, LogOut, Menu, X, 
-  Settings, ChevronDown, Monitor, Layers, Mail, Home as HomeIcon, Heart
+  Settings, ChevronDown, Monitor, Layers, Mail, Home as HomeIcon, Heart, Newspaper
 } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
 const navItems = [
-  { to: '/admin/dashboard',    icon: LayoutDashboard, label: 'Overview', exact: true },
-  { to: '/admin/messages',     icon: Mail,            label: 'Messages', badge: true },
-  { to: '/admin/home',         icon: HomeIcon,        label: 'Home Page Settings' },
-  { to: '/admin/about',        icon: UserCircle,      label: 'About Section Settings' },
-  { to: '/admin/services',     icon: Heart,           label: 'Social Services' },
-  { to: '/admin/gallery',      icon: ImageIcon,       label: 'Gallery' },
-  { to: '/admin/milestone',    icon: Layers,          label: 'Milestone' }, // Phase 9
-  { to: '/admin/connections',  icon: LinkIcon,        label: 'Connections' },
-  { to: '/admin/settings',     icon: Settings,        label: 'Settings' },
-  { to: '/admin/site-assets',  icon: ImageIcon,       label: 'Site Assets' },
+  { to: '/admin/dashboard',      icon: LayoutDashboard, label: 'Overview', exact: true },
+  { to: '/admin/messages',       icon: Mail,            label: 'Messages', badge: true },
+  { to: '/admin/home',           icon: HomeIcon,        label: 'Home Page Settings' },
+  { to: '/admin/about',          icon: UserCircle,      label: 'About Section Settings' },
+  { to: '/admin/services',       icon: Heart,           label: 'Social Services' },
+  { to: '/admin/gallery',        icon: ImageIcon,       label: 'Gallery' },
+  { to: '/admin/milestone',      icon: Layers,          label: 'Milestone' },        // Phase 9
+  { to: '/admin/media-coverage', icon: Newspaper,       label: 'Media Coverage' },   // Phase 9 Step 3
+  { to: '/admin/connections',    icon: LinkIcon,        label: 'Connections' },
+  { to: '/admin/settings',       icon: Settings,        label: 'Settings' },
+  { to: '/admin/site-assets',    icon: ImageIcon,       label: 'Site Assets' },
 ];
 
 export default function AdminLayout() {

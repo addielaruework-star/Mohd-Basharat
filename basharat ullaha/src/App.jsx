@@ -15,7 +15,8 @@ import Home from './pages/Home'
 
 // ─── Secondary public pages — lazy loaded ────────────────────────────────────
 const About           = lazy(() => import('./pages/About'))
-const Milestone       = lazy(() => import('./pages/Milestone'))   // Phase 9 — merged section
+const Milestone       = lazy(() => import('./pages/Milestone'))        // Phase 9 — merged section
+const MediaCoverage   = lazy(() => import('./pages/MediaCoverage'))    // Phase 9 Step 3
 const SocialServices  = lazy(() => import('./pages/SocialServices'))
 const Gallery         = lazy(() => import('./pages/Gallery'))
 const Connections     = lazy(() => import('./pages/Connections'))
@@ -29,7 +30,8 @@ const AboutSectionSettings  = lazy(() => import('./pages/admin/ProfileManager'))
 const HomeManager            = lazy(() => import('./pages/admin/HomeManager'))
 const SocialServicesManager  = lazy(() => import('./pages/admin/SocialServicesManager'))
 const GalleryManager         = lazy(() => import('./pages/admin/GalleryManager'))
-const MilestoneManager       = lazy(() => import('./pages/admin/MilestoneManager'))   // Phase 9 — unified manager
+const MilestoneManager         = lazy(() => import('./pages/admin/MilestoneManager'))       // Phase 9 — unified manager
+const MediaCoverageManager   = lazy(() => import('./pages/admin/MediaCoverageManager')) // Phase 9 Step 3
 const ConnectionsManager     = lazy(() => import('./pages/admin/ConnectionsManager'))
 const Settings             = lazy(() => import('./pages/admin/Settings'))
 const SiteAssetsManager    = lazy(() => import('./pages/admin/SiteAssetsManager'))
@@ -95,6 +97,8 @@ export default function App() {
                   <Route path="/achievements"    element={<Navigate to="/milestone" replace />} />
                   <Route path="/awards"          element={<Navigate to="/milestone" replace />} />
                   <Route path="/certificates"    element={<Navigate to="/milestone" replace />} />
+                  {/* Phase 9 Step 3 — Media Coverage */}
+                  <Route path="/media-coverage"  element={<MediaCoverage />} />
                   <Route path="/social-services" element={<SocialServices />} />
                   <Route path="/gallery"         element={<Gallery />} />
                   <Route path="/connections"     element={<Connections />} />
@@ -114,8 +118,10 @@ export default function App() {
                   <Route path="services"     element={<SocialServicesManager />} />
                   <Route path="gallery"      element={<GalleryManager />} />
                   {/* Phase 9 — unified milestone manager */}
-                  <Route path="milestone"    element={<MilestoneManager />} />
-                  <Route path="connections"  element={<ConnectionsManager />} />
+                  <Route path="milestone"       element={<MilestoneManager />} />
+                  {/* Phase 9 Step 3 — media coverage */}
+                  <Route path="media-coverage"  element={<MediaCoverageManager />} />
+                  <Route path="connections"     element={<ConnectionsManager />} />
                   <Route path="settings"     element={<Settings />} />
                   <Route path="site-assets"  element={<SiteAssetsManager />} />
                   <Route path="messages"     element={<MessagesManager />} />
