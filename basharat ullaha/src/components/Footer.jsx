@@ -62,14 +62,14 @@ export default function Footer() {
             
             <LinkGroup title="Pages" links={[
               { to: '/about', label: 'Biography' },
-              { to: '/achievements', label: 'Achievements' },
+              { to: '/milestone', label: 'Milestone' },
               { to: '/social-services', label: 'Social Services' },
               { to: '/gallery', label: 'Gallery' },
             ]} />
             
             <LinkGroup title="Resources" links={[
-              { to: '/awards', label: 'Awards' },
-              { to: '/certificates', label: 'Certificates' },
+              { to: '/milestone?tab=awards', label: 'Awards' },
+              { to: '/milestone?tab=certificates', label: 'Certificates' },
               { to: '/connections', label: 'Connections' },
               { to: '/contact', label: 'Contact' },
             ]} />

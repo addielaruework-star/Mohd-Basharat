@@ -1,4 +1,5 @@
-import { memo, useState, useCallback } from 'react'
+import { memo, useState, useCallback, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Trophy, Award, FileText, Users, Heart, Star } from 'lucide-react'
 import PageContainer from '../components/PageContainer'
 import PageHero from '../components/PageHero'
@@ -220,7 +221,17 @@ function CertificatesPanel({ items, loading, bannerImg }) {
 
 // ─── Main Milestone Page ──────────────────────────────────────────────────────
 const Milestone = memo(function Milestone() {
-  const [activeTab, setActiveTab] = useState('achievements')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tabQuery = searchParams.get('tab')
+  
+  const defaultTab = TABS.some(t => t.id === tabQuery) ? tabQuery : 'achievements'
+  const [activeTab, setActiveTab] = useState(defaultTab)
+
+  useEffect(() => {
+    if (tabQuery && TABS.some(t => t.id === tabQuery)) {
+      setActiveTab(tabQuery)
+    }
+  }, [tabQuery])
 
   const { items: achItems, loading: achLoading } = useCollection('achievements')
   const { items: awdItems, loading: awdLoading } = useCollection('awards')
@@ -236,7 +247,10 @@ const Milestone = memo(function Milestone() {
   const awardsBannerImg  = assets.awardsBanner   || images.gallery.awards[1]
   const certsBannerImg   = assets.servicesBanner || images.gallery.certificates[0]
 
-  const handleTabClick = useCallback((id) => setActiveTab(id), [])
+  const handleTabClick = useCallback((id) => {
+    setActiveTab(id)
+    setSearchParams({ tab: id }, { replace: true })
+  }, [setSearchParams])
 
   return (
     <PageContainer>
