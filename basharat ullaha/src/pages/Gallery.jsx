@@ -22,7 +22,7 @@ import LazyImage from '../components/LazyImage'
 const CATS = [
   'All',
   'Social Activity',
-  'Achievements',
+  'Milestone',
   'Meetings',
   'Newspaper',
 ]
@@ -69,7 +69,7 @@ const Gallery = memo(function Gallery() {
     if (active === 'Social Activity') {
       return i.category === 'Social Activity' || i.category === 'Social Activities';
     }
-    if (active === 'Achievements') {
+    if (active === 'Milestone') {
       return i.category === 'Achievements' || i.category === 'Milestone' || i.category === 'Awards & Felicitations' || i.category === 'Certificates & Achievements';
     }
     if (active === 'Meetings') {

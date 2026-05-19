@@ -19,7 +19,6 @@ const ASSET_SLOTS = [
   { key: 'aboutBanner',        label: 'About Banner',               desc: 'Full-width banner at bottom of About page' },
   { key: 'awardsBanner',       label: 'Awards Banner',              desc: 'Full-width banner on Awards page' },
   { key: 'servicesBanner',     label: 'Services Banner',            desc: 'Full-width banner on Social Services page' },
-  { key: 'achievementsBanner', label: 'Achievements Banner',        desc: 'Full-width banner on Achievements page' },
   { key: 'galleryBanner',      label: 'Gallery Banner',             desc: 'Bottom banner on Homepage gallery section' },
   { key: 'contactBanner',      label: 'Contact Banner',             desc: 'Visual image on Contact page' },
 ];

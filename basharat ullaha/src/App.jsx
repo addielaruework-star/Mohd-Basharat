@@ -96,7 +96,6 @@ export default function App() {
                   {/* Phase 9 — Milestone replaces individual pages */}
                   <Route path="/milestone"       element={<Milestone />} />
                   {/* Legacy redirects — keep old URLs working (bookmarks, SEO) */}
-                  <Route path="/achievements"    element={<Navigate to="/milestone" replace />} />
                   <Route path="/awards"          element={<Navigate to="/milestone" replace />} />
                   <Route path="/certificates"    element={<Navigate to="/milestone" replace />} />
                   {/* Phase 9 Step 3 — Media Coverage */}

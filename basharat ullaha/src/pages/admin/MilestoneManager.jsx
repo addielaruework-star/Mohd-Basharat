@@ -3,15 +3,13 @@ import { m, AnimatePresence } from 'framer-motion';
 import { Trophy, Award, FileText, Plus, Trash2, Edit2, Loader2, Save, X, CheckCircle, AlertCircle } from 'lucide-react';
 import { getCollectionData, addCollectionItem, deleteCollectionItem, updateCollectionItem } from '../../services/firebaseService';
 
-// ─── Tab definitions — maps to existing Firestore collections ─────────────────
 const TABS = [
-  { id: 'achievements', label: 'Achievements', icon: Trophy, hasType: false },
   { id: 'awards',       label: 'Awards',       icon: Award,  hasType: false },
   { id: 'certificates', label: 'Certificates', icon: FileText, hasType: true },
 ]
 
 export default function MilestoneManager() {
-  const [activeTab, setActiveTab] = useState('achievements')
+  const [activeTab, setActiveTab] = useState('awards')
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
 

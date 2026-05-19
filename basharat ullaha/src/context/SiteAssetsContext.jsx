@@ -16,7 +16,6 @@ export const DEFAULT_ASSETS = {
   awardsBanner: '',
   servicesBanner: '',
   galleryBanner: '',
-  achievementsBanner: '',
   contactBanner: '',
   profileImage: '',
 }

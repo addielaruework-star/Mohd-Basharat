@@ -8,7 +8,7 @@ import { galleryData } from '../../data/galleryData';
 import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl';
 import LazyImage from '../../components/LazyImage';
 
-const CATEGORIES = ['Social Activity', 'Achievements', 'Meetings', 'Newspaper'];
+const CATEGORIES = ['Social Activity', 'Milestone', 'Meetings', 'Newspaper'];
 
 export default function GalleryManager() {
   const [images, setImages] = useState([]);
