@@ -132,6 +132,10 @@ export default function CertificatesManager() {
                 <label className="block text-[0.75rem] font-medium text-slate-400">Description</label>
                 <textarea rows="4" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                   className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-100 transition-all text-[0.9rem] resize-none"></textarea>
+                <p className="text-[0.68rem] text-slate-500 mt-1.5 flex gap-3">
+                  <span>Formatting: <strong>**bold**</strong></span>
+                  <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+                </p>
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-slate-800/50">

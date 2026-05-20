@@ -11,17 +11,24 @@ import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl';
 import LazyImage from '../../components/LazyImage';
 
 /* ── Asset slot definitions ───────────────────────────────────────────── */
-const ASSET_SLOTS = [
-  { key: 'heroImage',          label: 'Hero Background (Desktop)', desc: 'Main homepage hero image — shown on desktop' },
-  { key: 'mobileHeroImage',    label: 'Hero Image (Mobile)',        desc: 'Profile photo shown in mobile hero section' },
-  { key: 'profileImage',       label: 'Profile Photo',              desc: 'Bio/About page profile portrait' },
-  { key: 'biographyImage',     label: 'Biography Image',            desc: 'Secondary image beside bio text on About page' },
-  { key: 'aboutBanner',        label: 'About Banner',               desc: 'Full-width banner at bottom of About page' },
-  { key: 'awardsBanner',       label: 'Awards Banner',              desc: 'Full-width banner on Awards page' },
-  { key: 'servicesBanner',     label: 'Services Banner',            desc: 'Full-width banner on Social Services page' },
-  { key: 'galleryBanner',      label: 'Gallery Banner',             desc: 'Bottom banner on Homepage gallery section' },
-  { key: 'contactBanner',      label: 'Contact Banner',             desc: 'Visual image on Contact page' },
+const SECTION_IMAGES = [
+  { key: 'leadershipImage',    label: 'Leadership Image',    desc: 'Image used in the Leadership section' },
+  { key: 'profileImage',       label: 'Biography Portrait',  desc: 'Bio/About page profile portrait' },
+  { key: 'mobileHeroImage',    label: 'Mobile Hero Image',   desc: 'Profile photo shown in mobile hero section' },
+  { key: 'contactIllustration',label: 'Contact Illustration',desc: 'Visual illustration on Contact page' }
 ];
+
+const PAGE_BANNERS = [
+  { key: 'heroImage',          label: 'Home Banner',         desc: 'Main homepage hero banner (Desktop)' },
+  { key: 'aboutBanner',        label: 'About Banner',        desc: 'Full-width banner at bottom of About page' },
+  { key: 'awardsBanner',       label: 'Milestone Banner',    desc: 'Full-width banner on Milestone page' },
+  { key: 'servicesBanner',     label: 'Services Banner',     desc: 'Full-width banner on Social Services page' },
+  { key: 'galleryBanner',      label: 'Gallery Banner',      desc: 'Bottom banner on Homepage gallery section' },
+  { key: 'mediaBanner',        label: 'Media Banner',        desc: 'Full-width banner on Media page' },
+  { key: 'contactBanner',      label: 'Contact Banner',      desc: 'Full-width banner on Contact page' },
+];
+
+const ASSET_SLOTS = [...SECTION_IMAGES, ...PAGE_BANNERS];
 
 /* ── Toast ────────────────────────────────────────────────────────────── */
 function Toast({ toast }) {
@@ -227,22 +234,40 @@ export default function SiteAssetsManager() {
         </p>
       </div>
 
-      {/* Asset Grid */}
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 animate-enter"
-        style={{ animationDelay: '0.15s' }}
-      >
-        {ASSET_SLOTS.map((slot) => (
-          <AssetCard
-            key={slot.key}
-            slotKey={slot.key}
-            label={slot.label}
-            desc={slot.desc}
-            currentUrl={assets[slot.key] || ''}
-            onSave={handleSave}
-            onRemove={handleRemove}
-          />
-        ))}
+      {/* Section Images Grid */}
+      <div className="animate-enter" style={{ animationDelay: '0.15s' }}>
+        <h3 className="text-[0.75rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-3">Section Images</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+          {SECTION_IMAGES.map((slot) => (
+            <AssetCard
+              key={slot.key}
+              slotKey={slot.key}
+              label={slot.label}
+              desc={slot.desc}
+              currentUrl={assets[slot.key] || ''}
+              onSave={handleSave}
+              onRemove={handleRemove}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Page Banners Grid */}
+      <div className="animate-enter" style={{ animationDelay: '0.2s' }}>
+        <h3 className="text-[0.75rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-3 mt-12">Page Banners</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {PAGE_BANNERS.map((slot) => (
+            <AssetCard
+              key={slot.key}
+              slotKey={slot.key}
+              label={slot.label}
+              desc={slot.desc}
+              currentUrl={assets[slot.key] || ''}
+              onSave={handleSave}
+              onRemove={handleRemove}
+            />
+          ))}
+        </div>
       </div>
 
     </div>

@@ -276,6 +276,10 @@ export default function SocialServicesManager() {
                     <label className="block text-[0.75rem] font-medium text-slate-400">Service Title</label>
                     <input type="text" required placeholder="e.g. Human Rights Advocacy" value={cardForm.title} onChange={e => setCardForm({...cardForm, title: e.target.value})}
                       className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-100 transition-all text-[0.9rem]" />
+                    <p className="text-[0.65rem] text-slate-500 mt-1 flex gap-2">
+                      <span>**bold**</span>
+                      <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+                    </p>
                   </div>
                   <div className="space-y-2">
                     <label className="block text-[0.75rem] font-medium text-slate-400">Icon Emblem</label>
@@ -341,11 +345,19 @@ export default function SocialServicesManager() {
                   <label className="block text-[0.75rem] font-medium text-slate-400">First Paragraph</label>
                   <textarea name="servicesIntroPart1" value={settingsForm.servicesIntroPart1} onChange={handleSettingsChange} rows="3"
                     className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 transition-all text-[0.9rem] resize-y leading-relaxed" />
+                  <p className="text-[0.68rem] text-slate-500 mt-1.5 flex gap-3">
+                    <span>Formatting: <strong>**bold**</strong></span>
+                    <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <label className="block text-[0.75rem] font-medium text-slate-400">Second Paragraph</label>
                   <textarea name="servicesIntroPart2" value={settingsForm.servicesIntroPart2} onChange={handleSettingsChange} rows="3"
                     className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 transition-all text-[0.9rem] resize-y leading-relaxed" />
+                  <p className="text-[0.68rem] text-slate-500 mt-1.5 flex gap-3">
+                    <span>Formatting: <strong>**bold**</strong></span>
+                    <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -446,6 +458,10 @@ export default function SocialServicesManager() {
                     <label className="block text-[0.75rem] font-medium text-slate-400">CTA Heading</label>
                     <input type="text" name="servicesCtaTitle" value={settingsForm.servicesCtaTitle} onChange={handleSettingsChange}
                       className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 text-[0.9rem]" />
+                    <p className="text-[0.65rem] text-slate-500 mt-1 flex gap-2">
+                      <span>**bold**</span>
+                      <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+                    </p>
                   </div>
                   <div className="space-y-2">
                     <label className="block text-[0.75rem] font-medium text-slate-400">Button Label</label>
@@ -457,6 +473,10 @@ export default function SocialServicesManager() {
                   <label className="block text-[0.75rem] font-medium text-slate-400">CTA Description</label>
                   <textarea name="servicesCtaText" value={settingsForm.servicesCtaText} onChange={handleSettingsChange} rows="3"
                     className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 transition-all text-[0.9rem] resize-none leading-relaxed" />
+                  <p className="text-[0.68rem] text-slate-500 mt-1.5 flex gap-3">
+                    <span>Formatting: <strong>**bold**</strong></span>
+                    <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+                  </p>
                 </div>
               </div>
             </div>

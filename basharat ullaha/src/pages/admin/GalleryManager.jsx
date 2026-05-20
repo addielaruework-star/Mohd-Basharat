@@ -284,6 +284,10 @@ export default function GalleryManager() {
                 placeholder="Enter title..."
                 className="w-full px-4 py-3.5 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem] placeholder:text-slate-600"
               />
+              <p className="text-[0.65rem] text-slate-500 mt-1 flex gap-2">
+                <span>**bold**</span>
+                <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+              </p>
             </div>
 
             <div className="space-y-2.5">
@@ -295,6 +299,10 @@ export default function GalleryManager() {
                 placeholder="Optional description..."
                 className="w-full px-4 py-3.5 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem] placeholder:text-slate-600"
               />
+              <p className="text-[0.65rem] text-slate-500 mt-1 flex gap-2">
+                <span>**bold**</span>
+                <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+              </p>
             </div>
 
             <button 

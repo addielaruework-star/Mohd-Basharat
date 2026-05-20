@@ -9,6 +9,7 @@ const LazyImage = memo(function LazyImage({
   alt,
   className = '',
   style = {},
+  imgStyle = {},
   isHero = false, // Set to true for LCP images
   onError,
   ...props
@@ -47,6 +48,7 @@ const LazyImage = memo(function LazyImage({
             transition: 'opacity 0.4s ease-out',
             display: 'block',
             filter: loaded ? 'none' : 'blur(4px)', // Optional: tiny blur during transition
+            ...imgStyle,
           }}
           {...props}
         />

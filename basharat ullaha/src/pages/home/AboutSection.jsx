@@ -14,7 +14,7 @@ const AboutSection = memo(function AboutSection({ profile, assets }) {
           <div>
             <div className="media-container aspect-[3/4]" style={{ border: '1px solid rgba(201,168,76,0.15)' }}>
               <LazyImage
-                src={optimizeCloudinaryUrl(assets.biographyImage || images.gallery.publicEvents[0])}
+                src={optimizeCloudinaryUrl(assets.profileImage || images.gallery.publicEvents[0])}
                 alt="Event Photo"
                 className="w-full h-full"
                 style={{ objectPosition: 'center 35%' }}

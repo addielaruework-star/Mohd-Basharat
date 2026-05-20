@@ -18,6 +18,7 @@ import { SkeletonGallery } from '../components/SkeletonLoaders'
 import { galleryData } from '../data/galleryData'
 import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
 import LazyImage from '../components/LazyImage'
+import { parseRichText } from '../utils/richText'
 
 const CATS = [
   'All',
@@ -305,16 +306,16 @@ const Gallery = memo(function Gallery() {
               onClick={e => e.stopPropagation()}
             >
               <div style={{
-                height: '65vh', minHeight: 300, maxHeight: 600,
+                height: '75vh', minHeight: 300,
                 background: '#0b2040',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 overflow: 'hidden',
+                width: '100%',
               }}>
                 {modal.type === 'video' ? (
                   <video
                     src={optimizeCloudinaryUrl(modal.url)}
-                    className="w-full h-full"
-                    style={{ objectFit: 'contain', maxHeight: '100%', outline: 'none' }}
+                    style={{ objectFit: 'contain', maxHeight: '75vh', width: 'auto', margin: '0 auto', outline: 'none' }}
                     controls
                     preload="metadata"
                     playsInline
@@ -324,17 +325,27 @@ const Gallery = memo(function Gallery() {
                   <LazyImage
                     src={optimizeCloudinaryUrl(modal.url)}
                     alt={modal.caption}
-                    className="w-full h-full"
-                    style={{ objectFit: 'contain' }}
+                    className=""
+                    style={{ background: 'transparent' }}
+                    imgStyle={{ objectFit: 'contain', maxHeight: '75vh', width: 'auto', height: 'auto', margin: '0 auto' }}
                   />
                 )}
               </div>
 
-              <div style={{ padding: '1.5rem 2rem 2rem' }}>
-                <p className="eyebrow mb-2" style={{ color: 'var(--gold-light)' }}>{modal.category}</p>
-                {modal.caption && <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.95rem', whiteSpace: 'pre-line' }}>{modal.caption}</p>}
+              <div style={{ padding: '1.5rem 2rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <p className="eyebrow mb-1.5" style={{ color: 'var(--gold-light)', textTransform: 'uppercase', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em' }}>
+                  {modal.category}
+                </p>
+                <h4 className="font-display font-bold text-white mb-2" style={{ fontSize: '1.25rem', lineHeight: 1.3 }}>
+                  {parseRichText(modal.title ? modal.title : (modal.caption ? modal.caption : "Untitled Asset"))}
+                </h4>
+                {modal.title && modal.caption && (
+                  <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                    {parseRichText(modal.caption)}
+                  </p>
+                )}
                 {modal.isLocal && (
-                  <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.72rem', marginTop: '0.5rem' }}>Local default image</p>
+                  <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', marginTop: '0.75rem' }}>Local default image</p>
                 )}
               </div>
 

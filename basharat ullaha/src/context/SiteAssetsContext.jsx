@@ -9,15 +9,20 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 /** Default fallback structure — matches what the pages already hard-code */
 export const DEFAULT_ASSETS = {
-  heroImage: '',
+  // Section Images
+  leadershipImage: '',
+  profileImage: '', // Biography Portrait
   mobileHeroImage: '',
+  contactIllustration: '',
+
+  // Page Banners
+  heroImage: '', // Home Banner
   aboutBanner: '',
-  biographyImage: '',
-  awardsBanner: '',
+  awardsBanner: '', // Milestone Banner
   servicesBanner: '',
   galleryBanner: '',
+  mediaBanner: '',
   contactBanner: '',
-  profileImage: '',
 }
 
 const SiteAssetsContext = createContext({ assets: DEFAULT_ASSETS, loading: true })

@@ -10,6 +10,7 @@ import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
 import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
 import LazyImage from '../components/LazyImage'
+import { parseRichText } from '../utils/richText'
 
 const iconMap = { Scale, Shield, Users, Megaphone, Box, Heart, LinkIcon }
 
@@ -70,7 +71,7 @@ const SocialServices = memo(function SocialServices() {
             <div>
               <div className="media-container aspect-[4/3]" style={{ border: '1px solid rgba(201,168,76,0.14)' }}>
                 <LazyImage
-                  src={optimizeCloudinaryUrl(assets.biographyImage || images.gallery.communityService[0])}
+                  src={optimizeCloudinaryUrl(images.gallery.communityService[0])}
                   alt="Community Service"
                   className="w-full h-full"
                   style={{ objectPosition: 'center center' }}
@@ -82,11 +83,11 @@ const SocialServices = memo(function SocialServices() {
               <p className="eyebrow mb-4">Public Welfare</p>
               <h2 className="section-title mb-4" style={{ maxWidth: 360 }}>Serving Where It Matters Most</h2>
               <div className="gold-rule mb-6" />
-              <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85, marginBottom: '1rem', whiteSpace: 'pre-line' }}>
-                {profile?.servicesIntroPart1 || `${name}'s social service programs reach vulnerable communities — offering tangible relief, advocacy, and educational opportunity.`}
+              <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85, marginBottom: '1rem' }}>
+                {parseRichText(profile?.servicesIntroPart1 || `${name}'s social service programs reach vulnerable communities — offering tangible relief, advocacy, and educational opportunity.`)}
               </p>
-              <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85, whiteSpace: 'pre-line' }}>
-                {profile?.servicesIntroPart2 || `Each initiative is driven by a sincere commitment to human dignity and the belief that systemic change begins with consistent grassroots action and collaboration.`}
+              <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.85 }}>
+                {parseRichText(profile?.servicesIntroPart2 || `Each initiative is driven by a sincere commitment to human dignity and the belief that systemic change begins with consistent grassroots action and collaboration.`)}
               </p>
             </div>
           </div>
@@ -117,7 +118,7 @@ const SocialServices = memo(function SocialServices() {
                   }}>
                     <Icon size={20} />
                   </div>
-                  <h3 className="font-display font-semibold" style={{ fontSize: '1rem', color: 'var(--navy)' }}>{s.title}</h3>
+                  <h3 className="font-display font-semibold" style={{ fontSize: '1rem', color: 'var(--navy)' }}>{parseRichText(s.title)}</h3>
                 </div>
               );
             })}
@@ -159,9 +160,9 @@ const SocialServices = memo(function SocialServices() {
       {/* Call to Action Section */}
       <div style={{ background: 'var(--cream)', padding: '5rem 0', textAlign: 'center' }}>
         <div className="container-custom" style={{ maxWidth: '640px', margin: '0 auto' }}>
-          <h2 className="font-display font-bold text-3xl text-[var(--navy)] mb-4">{profile?.servicesCtaTitle || 'Support Our Social Causes'}</h2>
-          <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.8, marginBottom: '2.5rem', whiteSpace: 'pre-line' }}>
-            {profile?.servicesCtaText || 'Join hands with us to bring sustainable change and uplift marginalized communities.'}
+          <h2 className="font-display font-bold text-3xl text-[var(--navy)] mb-4">{parseRichText(profile?.servicesCtaTitle || 'Support Our Social Causes')}</h2>
+          <p style={{ fontSize: '0.95rem', color: 'var(--gray-mid)', lineHeight: 1.8, marginBottom: '2.5rem' }}>
+            {parseRichText(profile?.servicesCtaText || 'Join hands with us to bring sustainable change and uplift marginalized communities.')}
           </p>
           <a href="/contact" className="btn-primary" style={{ display: 'inline-flex', margin: '0 auto', textDecoration: 'none' }}>
             {profile?.servicesCtaButtonText || 'Get In Touch'}

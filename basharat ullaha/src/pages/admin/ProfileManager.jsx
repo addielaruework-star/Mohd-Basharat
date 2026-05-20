@@ -1,10 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
-import { Save, Loader2, CheckCircle2, AlertCircle, Upload, X, Image as ImageIcon, Plus, Trash2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Save, Loader2, CheckCircle2, AlertCircle, X, Plus, Trash2 } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
 import { getProfileData, updateProfileData } from '../../services/firebaseService';
-import { uploadImage } from '../../lib/cloudinary';
-import { optimizeCloudinaryUrl } from '../../utils/optimizeCloudinaryUrl';
-import LazyImage from '../../components/LazyImage';
 
 export default function AboutSectionSettings() {
   const [loading, setLoading] = useState(true);
@@ -15,12 +12,8 @@ export default function AboutSectionSettings() {
     aboutText: '',
     mission: '',
     vision: '',
-    bioImage: '',
     leadershipPositions: []
   });
-
-  const [uploadingBio, setUploadingBio] = useState(false);
-  const bioInputRef = useRef(null);
 
   useEffect(() => {
     async function loadData() {
@@ -32,7 +25,6 @@ export default function AboutSectionSettings() {
             aboutText: data.aboutText || '',
             mission: data.mission || '',
             vision: data.vision || '',
-            bioImage: data.bioImage || '',
             leadershipPositions: data.leadershipPositions || []
           }));
         }
@@ -50,28 +42,7 @@ export default function AboutSectionSettings() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
 
-    setUploadingBio(true);
-    try {
-      const { url } = await uploadImage(file);
-      setFormData(prev => ({ ...prev, bioImage: url }));
-      setStatus({ type: 'success', message: 'Biography image uploaded. Save to persist.' });
-      setTimeout(() => setStatus(null), 3000);
-    } catch (err) {
-      console.error("Upload failed", err);
-      setStatus({ type: 'error', message: err.message || "Failed to upload image." });
-    } finally {
-      setUploadingBio(false);
-      if (bioInputRef.current) bioInputRef.current.value = '';
-    }
-  };
-
-  const clearImage = () => {
-    setFormData(prev => ({ ...prev, bioImage: '' }));
-  };
 
   const handleAddPosition = () => {
     setFormData(prev => ({
@@ -167,44 +138,17 @@ export default function AboutSectionSettings() {
           <h3 className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-[0.15em] mb-6 border-b border-slate-800 pb-4">Biography</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <div className="md:col-span-2 space-y-2">
+            <div className="md:col-span-3 space-y-2">
               <label className="block text-[0.75rem] font-medium text-slate-400">About Narrative Text</label>
               <textarea name="aboutText" value={formData.aboutText} onChange={handleChange} rows="10"
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem] resize-y leading-relaxed"></textarea>
+              <p className="text-[0.68rem] text-slate-500 mt-1.5 flex gap-3">
+                <span>Formatting: <strong>**bold**</strong></span>
+                <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+              </p>
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-[0.75rem] font-medium text-slate-400">Biography Image</label>
-              <div className="relative border border-slate-800 rounded-xl overflow-hidden bg-slate-950/50 h-[220px] flex items-center justify-center">
-                {formData.bioImage ? (
-                  <>
-                    <LazyImage src={optimizeCloudinaryUrl(formData.bioImage)} alt="Bio" className="w-full h-full" />
-                    <button type="button" onClick={clearImage} className="absolute top-2 right-2 bg-red-500/20 hover:bg-red-500/40 text-red-100 p-2 rounded-full transition-colors border border-red-500/30">
-                      <X size={16} />
-                    </button>
-                  </>
-                ) : (
-                  <div className="text-center">
-                    <ImageIcon size={32} className="text-slate-700 mx-auto mb-2" />
-                    <p className="text-xs text-slate-500">No image uploaded</p>
-                  </div>
-                )}
-                {uploadingBio && (
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                    <Loader2 className="animate-spin text-[#c9a84c]" size={24} />
-                  </div>
-                )}
-              </div>
-              <button 
-                type="button" 
-                onClick={() => bioInputRef.current?.click()}
-                className="w-full mt-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
-              >
-                <Upload size={14} />
-                Upload Bio Image
-              </button>
-              <input type="file" accept="image/*" ref={bioInputRef} onChange={handleImageUpload} className="hidden" />
-            </div>
+
 
           </div>
         </div>
@@ -217,11 +161,19 @@ export default function AboutSectionSettings() {
               <label className="block text-[0.75rem] font-medium text-slate-400">Mission Statement</label>
               <textarea name="mission" value={formData.mission} onChange={handleChange} rows="2"
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem] resize-none leading-relaxed"></textarea>
+              <p className="text-[0.68rem] text-slate-500 mt-1.5 flex gap-3">
+                <span>Formatting: <strong>**bold**</strong></span>
+                <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+              </p>
             </div>
             <div className="space-y-2">
               <label className="block text-[0.75rem] font-medium text-slate-400">Vision Statement</label>
               <textarea name="vision" value={formData.vision} onChange={handleChange} rows="2"
                 className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 focus:bg-slate-900 text-slate-200 transition-all text-[0.9rem] resize-none leading-relaxed"></textarea>
+              <p className="text-[0.68rem] text-slate-500 mt-1.5 flex gap-3">
+                <span>Formatting: <strong>**bold**</strong></span>
+                <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+              </p>
             </div>
           </div>
         </div>
@@ -272,6 +224,10 @@ export default function AboutSectionSettings() {
                         onChange={(e) => handlePositionChange(index, 'title', e.target.value)}
                         className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl focus:outline-none focus:border-[#c9a84c]/50 text-slate-200 transition-all text-[0.9rem]" 
                       />
+                      <p className="text-[0.65rem] text-slate-500 mt-1 flex gap-2">
+                        <span>**bold**</span>
+                        <span>==<span className="text-[#c9a84c]">highlight</span>==</span>
+                      </p>
                     </div>
                   </div>
                   <button 

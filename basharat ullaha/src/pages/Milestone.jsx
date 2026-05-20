@@ -12,6 +12,7 @@ import { useSEO } from '../lib/useSEO'
 import { images } from '../data/imageImports'
 import { optimizeCloudinaryUrl } from '../utils/optimizeCloudinaryUrl'
 import LazyImage from '../components/LazyImage'
+import { parseRichText } from '../utils/richText'
 
 
 const iconMap = { Trophy, Star, Award }
@@ -56,7 +57,7 @@ function AwardsPanel({ items, loading, bannerImg }) {
                     <Icon size={22} />
                   </div>
                   <h3 className="font-display font-bold text-white" style={{ fontSize: '1.2rem', lineHeight: 1.3, marginBottom: '0.75rem' }}>{a.title}</h3>
-                  <p style={{ fontSize: '0.92rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, whiteSpace: 'pre-line' }}>{a.description}</p>
+                  <p style={{ fontSize: '0.92rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.75 }}>{parseRichText(a.description)}</p>
                   <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 3, background: 'linear-gradient(90deg, transparent, var(--gold))' }} />
                 </div>
               )
@@ -82,7 +83,7 @@ function AwardsPanel({ items, loading, bannerImg }) {
                       <div>
                         <span className="text-[0.7rem] font-bold text-[var(--gold)] uppercase tracking-wider mb-1 block">{item.year}</span>
                         <h4 className="font-display font-bold text-[1.05rem] text-[var(--navy)] mb-2 leading-tight">{item.title}</h4>
-                        <p className="text-[0.85rem] text-[var(--gray-mid)] leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{item.description}</p>
+                        <p className="text-[0.85rem] text-[var(--gray-mid)] leading-relaxed">{parseRichText(item.description)}</p>
                       </div>
                     </div>
                   ))}
@@ -120,7 +121,7 @@ function CertificatesPanel({ items, loading, bannerImg }) {
                 <FileText size={20} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <h3 className="font-display font-semibold" style={{ fontSize: '1.05rem', color: 'var(--navy)', lineHeight: 1.3 }}>{cert.title}</h3>
+                <h3 className="font-display font-semibold" style={{ fontSize: '1.05rem', color: 'var(--navy)', lineHeight: 1.3 }}>{parseRichText(cert.title)}</h3>
               </div>
               <div style={{ textAlign: 'right', flexShrink: 0 }}>
                 <span style={{ fontSize: '0.65rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>{cert.type}</span>
@@ -143,7 +144,7 @@ function CertificatesPanel({ items, loading, bannerImg }) {
                     <div className="w-10 h-10 rounded-lg bg-[rgba(11,29,53,0.05)] text-[var(--navy)] flex items-center justify-center shrink-0"><FileText size={18} /></div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-display font-semibold text-[1rem] text-[var(--navy)] truncate">{item.title}</h4>
-                      <p className="text-[0.8rem] text-[var(--gray-mid)]" style={{ whiteSpace: 'pre-line' }}>{item.description}</p>
+                      <p className="text-[0.8rem] text-[var(--gray-mid)]">{parseRichText(item.description)}</p>
                     </div>
                     <div className="shrink-0 text-right">
                       <span className="text-[0.7rem] font-bold tracking-wider text-[var(--gold)] uppercase bg-[rgba(201,168,76,0.1)] px-2 py-1 rounded">{item.year}</span>
